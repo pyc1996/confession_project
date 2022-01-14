@@ -1,7 +1,0 @@
-1. git push --set-upstream origin front1
-
-의 함수를 실행시켰을 때 왜 front1 => front / front => test / test => master
-로 3개 연속으로 create merge request가 뜨는 것인가?
-
-
-2. create merge request를 혹시 팀장 혼자 관리 할 수 있는가?
