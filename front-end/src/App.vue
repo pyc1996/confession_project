@@ -1,24 +1,37 @@
 <template>
-  <MainHeader />
-  <div class="content">
-    <router-view/>
+  <div id="app">
+    <main-header></main-header>
+    <router-view />
   </div>
 </template>
 
 <script>
-import MainHeader from './views/main/components/MainHeader.vue'
+import MainHeader from "./views/main/components/MainHeader.vue";
 
-export default ({
+export default {
+  name: "App",
   components: { MainHeader },
-})
+  setup() {
+  },
+};
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: auto;
+  width: 100%;
+  margin-left: 10px;
+  margin-right: 3px;
+}
+
+body {
+  height: 100vh;
+  margin-top: 0px!important;
+  justify-content: center;
 }
 </style>

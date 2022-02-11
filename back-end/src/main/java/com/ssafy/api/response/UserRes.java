@@ -1,12 +1,14 @@
 package com.ssafy.api.response;
 
-import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.common.util.ProjectDirectoryPathUtil;
 import com.ssafy.db.entity.User;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.net.MalformedURLException;
 
 /**
  * 회원 본인 정보 조회 API ([GET] /api/v1/users/me) 요청에 대한 응답값 정의.
@@ -15,12 +17,51 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserResponse")
 public class UserRes{
-	@ApiModelProperty(name="User ID")
-	String userId;
-	
-	public static UserRes of(User user) {
+	@ApiModelProperty(name="User email")
+	String email;
+	@ApiModelProperty(name="User nickname")
+	String nickname;
+	@ApiModelProperty(name="User ProfileImg")
+	String profileImg;
+	@ApiModelProperty(name="User pointTot")
+	double pointTot;
+	@ApiModelProperty(name="User ReportCnt")
+	int reportCnt;
+	@ApiModelProperty(name="User userID 숫자 번호임")
+	long id;
+
+	@ApiModelProperty(name="User 현재 마스크")
+	String mask;
+
+	@ApiModelProperty(name="접근 권한")
+	String role;
+
+	@ApiModelProperty(name="User isPenalty")
+	boolean isPenalty;
+	@ApiModelProperty(name="User isConsultant")
+	boolean isConsultant;
+
+	public static UserRes of(User user) throws MalformedURLException {
 		UserRes res = new UserRes();
-		res.setUserId(user.getUserId());
+		res.setId(user.getId());
+		res.setEmail(user.getEmail());
+		res.setNickname(user.getNickname());
+
+		String profileImg = user.getProfileImg();
+		if(profileImg == null)
+			profileImg = "";
+		else if( !profileImg.contains("http") )
+			profileImg = ProjectDirectoryPathUtil.getProfileImagePath(profileImg);
+		res.setProfileImg(profileImg);
+
+		res.setPointTot(user.getPointTot());
+		res.setReportCnt(user.getReportCnt());
+		res.setPenalty(user.isPenalty());
+		res.setConsultant(user.isConsultant());
+
+		res.setMask(user.getMask());
+		res.setRole(user.getRole());
+
 		return res;
 	}
 }

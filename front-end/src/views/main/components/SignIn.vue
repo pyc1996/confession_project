@@ -1,380 +1,271 @@
 <template>
-	<div>
-		<h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
-		<div class="container" id="container">
-			<div class="form-container sign-up-container">
-				<form :model="credentials">
-					<h1>Create Account</h1>
-					<div class="social-container">
-						<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-						<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-						<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-					</div>
-					<span>or use your email for registration</span>
-					<input type="text" placeholder="사용자 닉네임" id="username"
-						v-model="credentials.username" />
-					<input type="email" placeholder="이메일" id="email"
-						v-model="credentials.email" />
-					<input type="password" placeholder="비밀번호" id="password"
-						v-model="credentials.password" />
-					<input type="password" placeholder="비밀번호 확인" id="passwordConfirmation"
-						v-model="credentials.passwordConfirmation" />
-					<button @click="clickSignUp">Sign Up</button>
-				</form>
-			</div>
-			<div class="form-container sign-in-container">
-				<form :model="credentialsIn">
-					<h1>Sign in</h1>
-					<div class="social-container">
-						<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-						<a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-						<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-					</div>
-					<span>or use your account</span>
-					<input type="text" placeholder="이메일" id="email"
-						v-model="credentialsIn.email" />
-					<input type="password" placeholder="비밀번호" id="password"
-						v-model="credentialsIn.password" />
-					<a href="#">Forgot your password?</a>
-					<button @click="clickSignIn">Sign In</button>
-				</form>
-			</div>
-			<div class="overlay-container">
-				<div class="overlay">
-					<div class="overlay-panel overlay-left">
-						<h1>Welcome Back!</h1>
-						<p>To keep connected with us please login with your personal info</p>
-						<button class="ghost" id="signIn">Sign In</button>
-					</div>
-					<div class="overlay-panel overlay-right">
-						<h1>Hello, Friend!</h1>
-						<p>Enter your personal details and start journey with us</p>
-						<button class="ghost" id="signUp">Sign Up</button>
-					</div>
+	<div class="bg-img">
+		<div class="content">
+			<header>로그인</header>
+			<form action="#">
+				<div class="field">
+					<span class="fa fa-user"></span>
+					<input type="text" required placeholder="Email" v-model="credentialsIn.email">
 				</div>
+				<div class="field space">
+					<span class="fa fa-lock"></span>
+					<input type="password" class="pass-key" required placeholder="Password" v-model="credentialsIn.password">
+					<span class="show" @click="clickShow">SHOW</span>
+				</div>
+				<div class="pass">
+					<a href="#">Forgot Password?</a>
+				</div>
+				<div class="field">
+					<input type="button" value="LOGIN" @click="clickSignIn">
+				</div>
+			</form>
+			<div class="login">
+					Or login with
+			</div>
+			<div class="links d-flex justify-content-evenly">
+				<a class="social_btn" href="http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:8080/oauth/redirect" >
+					<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAArlBMVEVHcEw/hfbvgxs6ic4yqlQ/gvJAhvhhepCmcULsQjPsQjPqQjPsQjQzqVPrQjPxeSAyq1QyqlQxp1PnQTL8vwAzqVTrQjMyqlQ5qVE/hPU/hPYyqlQ+g/X9wAA/h/TtQjP7vADqQTP9wAA/hPU/hff7uQXzhxk3l5zAth4+g/P8wAA5k7LeuhPnQTM+gvEyp1P5uwAxplM/hPUyp1H3rAjtaCSIsDI6i8w0n3RXq0M974clAAAALXRSTlMAjQ8P7TDhAwjwcUbYSKE0gNAdHr1rup0x8Lm1SomBgmBf6c2gpff892Rt4qhtntK7AAACRUlEQVRYw+1XaXeiMBRFgg1r2GQTq7XaTjszGiitM/P//9gQljSWABFPv3nVox+89928Je8gSTfc8M1QfdsgsH11Als2dGSaGoFpIt2QL6P7eqgdWGjh1r8gum4eugi3oi6ML9EpkC2UOm74GqYxnk51ox36YdrX8TVdHfV/HV/anvE1M0QIhaYmyoc+mz8TGb4MJSj7BtLE4quIiY5sVYKNsGqEInzJ0JjjnneNvBHgy08flL+FX04H4Sgf2o/vz218OGH+4H2WZbUCmjK/UF6UAtn7h0i/cWE/Zo3CZsoBJPiQNXhmDEAw5wD0pqDCgqkgXN9xsOZZVJ9agXtWdnbs4m3PFVi0Aj9HBZa8KslU4GFM4LgE3yFw0RHAlUnk5qCnjLO3TwxXQaKN9BIzAqvZJ3atArcPYNPK2Qk7kB1jCrBsBV7510GVxZd/OXZj7h9WScNP5v3jTPgYR9wk7VsDO9A7jqeC8LESwAEDx1nPtMq/TznOq3dXAc5pCpNV30RbCq4MYKJwbhOudsN9WPdSVAnUp4hixoQX/DqOG5Ck2K3jk1cpYXmgXCyqZzkuzn+0AnswcCtZSpUDAuLCTaMoSl2l/F0Uf/9U/Lv54G5ylAJ3QfTyWiF5Hb4wS4UunSgQD+UxkjUYuVtBR6Gg36XCKL/0ECiV57YlmqrUpXGAyP1upZj2Q+2++mDsWoIbywtcGhRTI4rjiW8ZL0gVNollRZ34sn0FLKdsgBpu6ljehHUHvdgiiD110rJsbqTbU8sNAvgPj0mre8ZWN6oAAAAASUVORK5CYII=" 
+						class="social_login">
+				</a>
+				
+				<a class="social_btn" href="http://localhost:8080/oauth2/authorization/naver?redirect_uri=http://localhost:8080/oauth/redirect">
+					<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABABAMAAABYR2ztAAAAKlBMVEVHcEwQqgAOpQANpAAOpAAeyAD///8bxAARqwBp21Xk+eA80CJW1kCw7KZApJ5fAAAABXRSTlMA7LNCXU5PuLYAAADxSURBVEjH7dYxDoJAEAXQKbyBBfYW1noCL7HZEPtNMGwBCUFLK70AFB5BsbTB3oIDUHgaBxESlN3facOvJvHnTbWMRIvJwZjdlGjkxJYES5pHkTBGxmOaCVtkSI61IALa2wubofD7wurGuXanTuF44lyqqaim7LMgU8VZJzzdq8n7El4Fdeapv1ALSiNBJUDgHUDQSFAJEHgHELQAgkqAoDIk6BQIqrQIum0ZBK80FmrBL4Dgu0gQJRBEjgQXCc0Oo9DsMAsuEt47zILMkbA1FNoHJx+9Tw8/3uEr9/8CPIv2wypCPs223/k0w+OO/h48AfrSASA123dQAAAAAElFTkSuQmCC" 
+						class="social_login">
+				</a>
+				
+				<a class="social_btn" href="http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:8080/oauth/redirect">
+					<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAV1BMVEVHcEz95AD74wD74gD85QD64QD74QD74QD74QD74wD74gD74wD74gD74QA8Hh44Gh7y2AFGKRx8YBRfQhjgxgSegw6tkwyOchFTNhprThbGrAjTuQa5nwoG7ISxAAAADXRSTlMABzOdD97t9x1zuzo+dvp0aAAAAvJJREFUWMOtl4myqjAMQBEBL3pp0339/+98bQFFKNyiLzMyzmhOs5EmVZWkqft7exsK5dbe+7qpXnKpr12xdiIMt+5aX2b9pm+HD6Ttm1m/+0Q/GDESLh/qB+n66EXdfqofglkHB67DF3Jtqrr7BtDVVf/MH5x5zE701X34Su7VhyGczWirgwqEl+wnotrVdVJRw7RmhirpdhlZAHCrGCHoKYQwZTkcAOBNXZqF8lOMzCG2FnDJEEY5wUzyPwFgKToQauEYAFKjQ9ESjgAgCPpDiIB9QIH+hvAGkAX60Ys9gGOoSJjLA4CiQqGQBXiNCwHaZwHJAE2TmJBNQ1NI2OiYSdXJxizTHMCxaICfXj9JKAcVdDS3JBah5QYjyh1ZRaFapYB6ywduPSUyvJDhPAZcR4ADE/Rh/BeRGYDC04snBhk0jPM2hnUCGAf0qY+Q2gKA4rlQBokRVqAo92QBkC99/MrDDgBrD4Y4zl6AGKY5TwWAcLrGMoTxBQihnSslBxjeXRCDVcqDXQCEBG4mQCYGg0ALALOTXSwCME5Z0HawejeIg5wcTAAKTiilLAgDEL6ZEESDDR+TjReluC6k9LqK4IFA4VwKlkF03gZWLCSAWJeRlCllNVe6YsiohCOKEiqCUE1jWZL0RIGfA9g5SWT6zF9J7PBjl09PvHyfl/1AHfUTvOxJOw1lTtKZdvDe0iw73ZBWXdnrAn17dC94dlJ/czNZgw4aGybU/XU3crXbGkNBC15wve/cjjhUmN27nd9vK4m3Z2NkhIWyAQMUfqqNEnq18A6yU1IGwNkUMCWlUEJIbx3fnZIyADcNJB6G4wFrc7XNI0Kqd8ULhrysBanxMQ+FA+N2Tgwt8Pj41ZzYboYkUn58nFQ3s7IThcfDOCv3p7atVcnFaf3RZX8ppHSP7zeW6rfds2+1YGRsbB97W1uZQ+PW9vHeGCLY/J/NNXjxez1tRHf9vSzW7+YRtvfuVihd2N4fy+09IZqfE9I8T/8HxHrZ6Vi0v8gAAAAASUVORK5CYII=" 
+						class="social_login">
+				</a>
+			</div>
+			<br>
+			<div class="signup">
+					Don't you have account?
+					<router-link :to="{ name: 'SignUp' }">SignUp Now</router-link>
 			</div>
 		</div>
-
 	</div>
+			<!-- 모달 -->
+			<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Find Password</button>
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Password 찾기위한 Email을 기입하시오.</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<form>
+								<div class="mb-3">
+									<label for="message-text" class="col-form-label">Email:</label>
+									<input type="text" class="form-control" id="message-text" v-model="state.email">
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="findPassword">findPassword</button>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			
 </template>
 
 <script>
-import { onMounted, reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
-  name: 'Login',
+  name: 'SignIn',
   setup() {
-		const credentials = reactive({
-			username: null,
-			email: null,
-			password: null,
-			passwordConfirmation: null
-		})
+		const store = useStore()
+		const router = useRouter()
 
 		const credentialsIn = reactive({
 			email: null,
 			password: null,
 		})
 
-		const store = useStore()
-
-		onMounted(() => {
-			const signUpButton = document.getElementById('signUp');
-			const signInButton = document.getElementById('signIn');
-			const container = document.getElementById('container');
-
-			signUpButton.addEventListener('click', () => {
-				container.classList.add("right-panel-active");
-			});
-
-			signInButton.addEventListener('click', () => {
-				container.classList.remove("right-panel-active");
-			});
+		const state = reactive({
+			userInfo: computed(() => store.getters['root/userInfo']),
+			isSignIn: computed(() => store.getters["root/mainIsSignIn"]),
+			email: null,
 		})
+		
+		const clickShow = function () {
+			const pass_field = document.querySelector('.pass-key')
+			const showBtn = document.querySelector('.show')
+			if(pass_field.type === 'password') {
+				pass_field.type = "text"
+				showBtn.textContent = "HIDE"
+				showBtn.color = "#3498db"
+			} else {
+				pass_field.type = "password"
+				showBtn.textContent = "SHOW"
+				showBtn.color = "#222"
+			}
+		}
+			
 
-		const clickSignUp = function () {
-			console.log(credentials)
-			store.dispatch('root/signUp', credentials)
-			.then(res => {
-				console.log('success')
-				console.log(res)
-				// 보내는데 성공하면 로그인창으로 이동
-			})
-			.catch(err => {
-				console.log('fail')
-				console.log(err)
-			})
+		const clickSignIn = async function () {
+			await store.dispatch('root/mainSignIn', credentialsIn)
+			if (state.isSignIn == true) {
+				await router.push({
+					name: 'Home'
+				})
+			}
 		}
 
-		const clickSignIn = function () {
-			console.log(credentialsIn)
-			store.dispatch('root/signIn', credentialsIn)
-			.then(res => {
-				console.log('success')
-				console.log(res)
-			})
-			.catch(err => {
-				console.log('fail')
-				console.log(err)
-			})
+		const findPassword = function () {
+			store.dispatch('root/mainFindPassword', { email: state.email })
 		}
-		    
-    return { onMounted, credentials, credentialsIn, clickSignUp, clickSignIn }
+
+    return { credentialsIn, state, clickShow, clickSignIn, findPassword }
   }
 }
 </script>
 
-<style>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
-
-* {
-	box-sizing: border-box;
+<style scoped lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Poppins:400,500&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
 }
-
-body {
-	background: #f6f5f7;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	font-family: 'Montserrat', sans-serif;
-	height: 100vh;
-	margin: -20px 0 50px;
+.bg-img{
+  // background: url('bg.jpg');
+  height: 100%;
+  background-size: cover;
+  background-position: center;
 }
-
-h1 {
-	font-weight: bold;
-	margin: 0;
+.bg-img:after{
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.7);
 }
-
-h2 {
-	text-align: center;
+.content{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  text-align: center;
+  padding: 60px 32px;
+  width: 370px;
+  transform: translate(-50%,-50%);
+  background: #c2d6f8;
+	border-radius: 30px;
+  box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
 }
-
-p {
-	font-size: 14px;
-	font-weight: 100;
-	line-height: 20px;
-	letter-spacing: 0.5px;
-	margin: 20px 0 30px;
+.content header{
+  color: white;
+  font-size: 33px;
+  font-weight: 600;
+  margin: 0 0 35px 0;
+  font-family: 'Montserrat',sans-serif;
 }
-
-span {
-	font-size: 12px;
+.field{
+  position: relative;
+  height: 45px;
+  width: 100%;
+  display: flex;
+  background: rgba(255,255,255,0.94);
+	border-radius: 30px;
 }
-
-a {
-	color: #333;
-	font-size: 14px;
-	text-decoration: none;
-	margin: 15px 0;
+.field span{
+  color: #222;
+  width: 40px;
+  line-height: 45px;
 }
-
-button {
-	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
-	color: #FFFFFF;
-	font-size: 12px;
-	font-weight: bold;
-	padding: 12px 45px;
-	letter-spacing: 1px;
-	text-transform: uppercase;
-	transition: transform 80ms ease-in;
+.field input{
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #222;
+  font-size: 16px;
+  font-family: 'Poppins',sans-serif;
+	border-radius: 30px;
 }
-
-button:active {
-	transform: scale(0.95);
+.space{
+  margin-top: 16px;
 }
-
-button:focus {
-	outline: none;
+.show{
+  position: absolute;
+  right: 13px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+  display: none;
+  cursor: pointer;
+  font-family: 'Montserrat',sans-serif;
 }
-
-button.ghost {
-	background-color: transparent;
-	border-color: #FFFFFF;
+.pass-key:valid ~ .show{
+  display: block;
 }
-
-form {
-	background-color: #FFFFFF;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 0 50px;
-	height: 100%;
-	text-align: center;
+.pass{
+  text-align: left;
+  margin: 10px 0;
 }
-
-input {
-	background-color: #eee;
-	border: none;
-	padding: 12px 15px;
-	margin: 8px 0;
-	width: 100%;
+.pass a{
+  color: white;
+  text-decoration: none;
+  font-family: 'Poppins',sans-serif;
 }
-
-.container {
-	background-color: #fff;
-	border-radius: 10px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-    0 10px 10px rgba(0,0,0,0.22);
-	position: relative;
-	overflow: hidden;
-	width: 768px;
-	max-width: 100%;
-	min-height: 480px;
+.pass:hover a{
+  text-decoration: underline;
 }
-
-.form-container {
-	position: absolute;
-	top: 0;
-	height: 100%;
-	transition: all 0.6s ease-in-out;
+.field input[type="button"]{
+  background: #3498db;
+  border: 1px solid #2691d9;
+  color: white;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Montserrat',sans-serif;
 }
-
-.sign-in-container {
-	left: 0;
-	width: 50%;
-	z-index: 2;
+.field input[type="button"]:hover{
+  background: #2691d9;
 }
-
-.container.right-panel-active .sign-in-container {
-	transform: translateX(100%);
+.login{
+  color: white;
+  margin: 20px 0;
+  font-family: 'Poppins',sans-serif;
 }
-
-.sign-up-container {
-	left: 0;
-	width: 50%;
-	opacity: 0;
-	z-index: 1;
+.links{
+  display: flex;
+  cursor: pointer;
+  color: white;
+  margin: 0 0 20px 0;
 }
-
-.container.right-panel-active .sign-up-container {
-	transform: translateX(100%);
-	opacity: 1;
-	z-index: 5;
-	animation: show 0.6s;
+.links img{
+  width: 80%;
 }
-
-@keyframes show {
-	0%, 49.99% {
-		opacity: 0;
-		z-index: 1;
-	}
-	
-	50%, 100% {
-		opacity: 1;
-		z-index: 5;
-	}
+i span{
+  margin-left: 8px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  font-size: 16px;
+  font-family: 'Poppins',sans-serif;
 }
-
-.overlay-container {
-	position: absolute;
-	top: 0;
-	left: 50%;
-	width: 50%;
-	height: 100%;
-	overflow: hidden;
-	transition: transform 0.6s ease-in-out;
-	z-index: 100;
+.signup{
+  font-size: 15px;
+  color: white;
+  font-family: 'Poppins',sans-serif;
 }
-
-.container.right-panel-active .overlay-container{
-	transform: translateX(-100%);
+.signup a{
+  color: #3498db;
+  text-decoration: none;
 }
-
-.overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: 0 0;
-	color: #FFFFFF;
-	position: relative;
-	left: -100%;
-	height: 100%;
-	width: 200%;
-  transform: translateX(0);
-	transition: transform 0.6s ease-in-out;
-}
-
-.container.right-panel-active .overlay {
-  transform: translateX(50%);
-}
-
-.overlay-panel {
-	position: absolute;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 0 40px;
-	text-align: center;
-	top: 0;
-	height: 100%;
-	width: 50%;
-	transform: translateX(0);
-	transition: transform 0.6s ease-in-out;
-}
-
-.overlay-left {
-	transform: translateX(-20%);
-}
-
-.container.right-panel-active .overlay-left {
-	transform: translateX(0);
-}
-
-.overlay-right {
-	right: 0;
-	transform: translateX(0);
-}
-
-.container.right-panel-active .overlay-right {
-	transform: translateX(20%);
-}
-
-.social-container {
-	margin: 20px 0;
-}
-
-.social-container a {
-	border: 1px solid #DDDDDD;
-	border-radius: 50%;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	margin: 0 5px;
-	height: 40px;
-	width: 40px;
-}
-
-footer {
-    background-color: #222;
-    color: #fff;
-    font-size: 14px;
-    bottom: 0;
-    position: fixed;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 999;
-}
-
-footer p {
-    margin: 10px 0;
-}
-
-footer i {
-    color: red;
-}
-
-footer a {
-    color: #3c97bf;
-    text-decoration: none;
+.signup a:hover{
+  text-decoration: underline;
 }
 </style>
