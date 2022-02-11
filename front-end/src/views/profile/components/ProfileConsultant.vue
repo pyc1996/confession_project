@@ -2,12 +2,7 @@
   <div class="row" style="height: 80vh; width:100%; display: flex; align-content: center;">
     <div class="col-5" style="border-right: 1px solid black;">
       <h3 class="py-3" style="text-align: left;">상담가 프로필 변경</h3>
-      <div class="d-flex justify-content-start my-3">
-        <div class="searchBox">
-            <input class="searchInput" type="text" placeholder="Title" v-model="consultant.title">
-        </div>
-      </div>
-      <br>
+      {{ state.profileConsultantProfile }}
       <!-- 선택하여 정수를 반환하도록 수정해야함 -->
       <div>
         <div class="pagination d-flex justify-content-start my-3 mx-2">
@@ -122,7 +117,6 @@ export default {
     })
 
     const consultant = reactive({
-      title: null, 
       topicCategoryId: null,  
       description: null,
     })
@@ -139,12 +133,13 @@ export default {
       document.getElementById('topic_div_5').setAttribute('data-state', '')
       document.getElementById('topic_div_6').setAttribute('data-state', '')
       topic_tag.setAttribute('data-state', 'active')
+      clickProfileModifyTopicCategory(consultant.topicCategoryId)
     }
     
-    const clickProfileModifyTopicCategory = async function () {
+    const clickProfileModifyTopicCategory = async function (topicCategoryId) {
       await store.dispatch("root/profileModifyTopicCategory", {
         id: props.userInfo.id,
-        topicCategoryId: state.topic,
+        topicCategoryId: topicCategoryId,
       })
       await store.dispatch('root/profileGetConsultantProfile', state.userInfo.id)
     }
@@ -169,95 +164,95 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-// 전체 틀
-@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+// <style scoped lang="scss">
+// // 전체 틀
+// @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
 
-.front__text-hover {
-    position: relative;
-    top: 10px;
-    font-size: 15px;
-    color: #bbd2f9;
-    backface-visibility: hidden;
+// .front__text-hover {
+//     position: relative;
+//     top: 10px;
+//     font-size: 15px;
+//     color: #bbd2f9;
+//     backface-visibility: hidden;
 
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .4px;
+//     font-weight: 700;
+//     text-transform: uppercase;
+//     letter-spacing: .4px;
 
-    border: 2px solid #bbd2f9;
-    padding: 8px 15px;
-    border-radius: 30px;
+//     border: 2px solid #bbd2f9;
+//     padding: 8px 15px;
+//     border-radius: 30px;
 
-    background: #bbd2f9;
-    color: #fff;
-  }
+//     background: #bbd2f9;
+//     color: #fff;
+//   }
 
-// 버튼들
+// // 버튼들
 
-.pagination {
-  display: flex;
-  justify-content: center;
-}
-.pagination div {
-  // flex: 1;
-  margin: 0px 5px;
-  background: #dde1e7;
-  border-radius: 3px;
-  width: 20%;
-  box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
-}
-.pagination div p {
-  font-size: 18px;
-  text-decoration: none;
-  color: #4d3252;
-  height: 80%;
-  width: 100%;
-  // display: block;
-  line-height: 45px;
-  margin-bottom: 0px;
-}
-.pagination div[data-state=active] {
-  box-shadow: inset -3px -3px 7px #ffffff73,
-    inset 3px 3px 5px rgba(94, 104, 121, 0.288);
-}
-.pagination div[data-state=active] p {
-  font-size: 17px;
-  font-weight: bold;
-}
+// .pagination {
+//   display: flex;
+//   justify-content: center;
+// }
+// .pagination div {
+//   // flex: 1;
+//   margin: 0px 5px;
+//   background: #dde1e7;
+//   border-radius: 3px;
+//   width: 20%;
+//   box-shadow: -3px -3px 7px #ffffff73, 3px 3px 5px rgba(94, 104, 121, 0.288);
+// }
+// .pagination div p {
+//   font-size: 18px;
+//   text-decoration: none;
+//   color: #4d3252;
+//   height: 80%;
+//   width: 100%;
+//   // display: block;
+//   line-height: 45px;
+//   margin-bottom: 0px;
+// }
+// .pagination div[data-state=active] {
+//   box-shadow: inset -3px -3px 7px #ffffff73,
+//     inset 3px 3px 5px rgba(94, 104, 121, 0.288);
+// }
+// .pagination div[data-state=active] p {
+//   font-size: 17px;
+//   font-weight: bold;
+// }
 
-// 검색창
-.searchBox {
-  position: relative;
-  // transform:  translate(-50%,50%);
-  background: white;
-  height: 10%;
-  width: 40%;
-  // right: 10%;
-  border-radius: 40px;
-  padding: 10px;
-  border: 2px solid #bbd2f9;
-}
-
-
-.searchInput {
-  border:none;
-  background: none;
-  outline:none;
-  float:left;
-  padding: 0;
-  color: black;
-  font-size: 16px;
-  transition: 0.4s;
-  line-height: 20px;
-  width: 90%;
-  padding: 0 6px;
-}
+// // 검색창
+// .searchBox {
+//   position: relative;
+//   // transform:  translate(-50%,50%);
+//   background: white;
+//   height: 10%;
+//   width: 65%;
+//   // right: 10%;
+//   border-radius: 40px;
+//   padding: 10px;
+//   border: 2px solid #bbd2f9;
+// }
 
 
-@media screen and (max-width: 620px) {
-.searchBox:hover > .searchInput {
-    width: 150px;
-    padding: 0 6px;
-  }
-}
-</style>
+// .searchInput {
+//   border:none;
+//   background: none;
+//   outline:none;
+//   float:left;
+//   padding: 0;
+//   color: black;
+//   font-size: 16px;
+//   transition: 0.4s;
+//   line-height: 20px;
+//   width: 90%;
+//   padding: 0 6px;
+// }
+
+
+// @media screen and (max-width: 620px) {
+// .searchBox:hover > .searchInput {
+//     width: 150px;
+//     padding: 0 6px;
+//   }
+// }
+// </style>

@@ -98,191 +98,191 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+// <style scoped lang="scss">
 
-// 
+// // 
 
 
-input {
-  display: none;
-}
+// input {
+//   display: none;
+// }
 
-.like {
-  display: block;
-  width: var(--size);
-  height: var(--size);
-  cursor: pointer;
-  border-radius: 999px;
-  overflow: visible;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  -webkit-tap-highlight-color: transparent;
-    --size: 80px;
-  --frames: 62;
-}
+// .like {
+//   display: block;
+//   width: var(--size);
+//   height: var(--size);
+//   cursor: pointer;
+//   border-radius: 999px;
+//   overflow: visible;
+//   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+//   -webkit-tap-highlight-color: transparent;
+//     --size: 80px;
+//   --frames: 62;
+// }
 
-.hearth {
-  background-image: url('https://assets.codepen.io/23500/Hashflag-AppleEvent.svg');
-  background-size: calc(var(--size) * var(--frames)) var(--size);
-  background-repeat: no-repeat;
-  background-position-x: calc(var(--size) * (var(--frames) * -1 + 2));
-  background-position-y: calc(var(--size) * 0.02);
-  width: var(--size);
-  height: var(--size);
-  --size: 80px;
-  --frames: 62;
-}
+// .hearth {
+//   background-image: url('https://assets.codepen.io/23500/Hashflag-AppleEvent.svg');
+//   background-size: calc(var(--size) * var(--frames)) var(--size);
+//   background-repeat: no-repeat;
+//   background-position-x: calc(var(--size) * (var(--frames) * -1 + 2));
+//   background-position-y: calc(var(--size) * 0.02);
+//   width: var(--size);
+//   height: var(--size);
+//   --size: 80px;
+//   --frames: 62;
+// }
 
-input:checked + .hearth {
-  animation: like 1s steps(calc(var(--frames) - 3));  
-  animation-fill-mode: forwards;
-}
+// input:checked + .hearth {
+//   animation: like 1s steps(calc(var(--frames) - 3));  
+//   animation-fill-mode: forwards;
+// }
 
-@keyframes like {
-  0% {
-    background-position-x: 0;
-  }
-  100% {
-    background-position-x: calc(var(--size) * (var(--frames) * -1 + 3));
-  }
-}
+// @keyframes like {
+//   0% {
+//     background-position-x: 0;
+//   }
+//   100% {
+//     background-position-x: calc(var(--size) * (var(--frames) * -1 + 3));
+//   }
+// }
 
-@media (hover: hover) {
-  .like:hover {
-    background-color: #E1255E15;
-    .hearth {
-      background-position-x: calc(var(--size) * (var(--frames) * -1 + 1));
-    }
-  }
-}
+// @media (hover: hover) {
+//   .like:hover {
+//     background-color: #E1255E15;
+//     .hearth {
+//       background-position-x: calc(var(--size) * (var(--frames) * -1 + 1));
+//     }
+//   }
+// }
 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin: 4rem 5vw;
-  padding: 0;
-  list-style-type: none;
-}
+// .cards {
+//   display: grid;
+//   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+//   gap: 2rem;
+//   margin: 4rem 5vw;
+//   padding: 0;
+//   list-style-type: none;
+// }
 
-.card {
-  position: relative;
-  display: flex;
-  width: 50%;
-  height: 40vh;
-  left: 26%;
-  border-radius: calc(var(--curve) * 1px);
-  overflow: hidden;
-  text-decoration: none;
-  --surface-color: #fff;
-  --curve: 40;
-  box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(0, 0, 0, 0.1) inset;
-}
+// .card {
+//   position: relative;
+//   display: flex;
+//   width: 50%;
+//   height: 40vh;
+//   left: 26%;
+//   border-radius: calc(var(--curve) * 1px);
+//   overflow: hidden;
+//   text-decoration: none;
+//   --surface-color: #fff;
+//   --curve: 40;
+//   box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3),
+//     0 0 40px rgba(0, 0, 0, 0.1) inset;
+// }
 
-.card__image {      
-  width: 100%;
-  height: auto;
-}
+// .card__image {      
+//   width: 100%;
+//   height: auto;
+// }
 
-.card__overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;      
-  border-radius: calc(var(--curve) * 1px);    
-  background-color: var(--surface-color);      
-  transform: translateY(100%);
-  transition: .2s ease-in-out;
-}
+// .card__overlay {
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+//   z-index: 1;      
+//   border-radius: calc(var(--curve) * 1px);    
+//   background-color: var(--surface-color);      
+//   transform: translateY(100%);
+//   transition: .2s ease-in-out;
+// }
 
-.card:hover .card__overlay {
-  transform: translateY(0);
-}
+// .card:hover .card__overlay {
+//   transform: translateY(0);
+// }
 
-.card__header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2em;
-  padding: 1em;
-  border-radius: calc(var(--curve) * 1px) 0 0 0;    
-  background-color: var(--surface-color);
-  transform: translateY(-100%);
-  transition: .2s ease-in-out;
-}
+// .card__header {
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+//   gap: 2em;
+//   padding: 1em;
+//   border-radius: calc(var(--curve) * 1px) 0 0 0;    
+//   background-color: var(--surface-color);
+//   transform: translateY(-100%);
+//   transition: .2s ease-in-out;
+// }
 
-.card__arc {
-  width: 80px;
-  height: 80px;
-  position: absolute;
-  bottom: 100%;
-  right: 0;      
-  z-index: 1;
-}
+// .card__arc {
+//   width: 80px;
+//   height: 80px;
+//   position: absolute;
+//   bottom: 100%;
+//   right: 0;      
+//   z-index: 1;
+// }
 
-.card__arc path {
-  fill: var(--surface-color);
-  d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
-}       
+// .card__arc path {
+//   fill: var(--surface-color);
+//   d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
+// }       
 
-.card:hover .card__header {
-  transform: translateY(0);
-}
+// .card:hover .card__header {
+//   transform: translateY(0);
+// }
 
-.card__thumb {
-  flex-shrink: 0;
-  width: 50px;
-  height: 50px;      
-  border-radius: 50%;      
-}
+// .card__thumb {
+//   flex-shrink: 0;
+//   width: 50px;
+//   height: 50px;      
+//   border-radius: 50%;      
+// }
 
-.card__title {
-  font-size: 1em;
-  margin: 0 0 .3em;
-  color: #6A515E;
-}
+// .card__title {
+//   font-size: 1em;
+//   margin: 0 0 .3em;
+//   color: #6A515E;
+// }
 
-.card__tagline {
-  display: block;
-  margin: 1em 0;
-  font-family: "MockFlowFont";  
-  font-size: .8em; 
-  color: #D7BDCA;  
-}
+// .card__tagline {
+//   display: block;
+//   margin: 1em 0;
+//   font-family: "MockFlowFont";  
+//   font-size: .8em; 
+//   color: #D7BDCA;  
+// }
 
-.card__status {
-  font-size: .8em;
-  color: #D7BDCA;
-}
+// .card__status {
+//   font-size: .8em;
+//   color: #D7BDCA;
+// }
 
-.card__description {
-  padding: 0 2em 2em;
-  margin: 0;
-  color: #D7BDCA;
-  font-family: "MockFlowFont";   
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 8;
-  overflow: hidden;
+// .card__description {
+//   padding: 0 2em 2em;
+//   margin: 0;
+//   color: #D7BDCA;
+//   font-family: "MockFlowFont";   
+//   display: -webkit-box;
+//   -webkit-box-orient: vertical;
+//   -webkit-line-clamp: 8;
+//   overflow: hidden;
 
-  .front__text-hover {
-    position: relative;
-    top: 10px;
-    font-size: 15px;
-    color: #bbd2f9;
-    backface-visibility: hidden;
+//   .front__text-hover {
+//     position: relative;
+//     top: 10px;
+//     font-size: 15px;
+//     color: #bbd2f9;
+//     backface-visibility: hidden;
 
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .4px;
+//     font-weight: 700;
+//     text-transform: uppercase;
+//     letter-spacing: .4px;
 
-    border: 2px solid #bbd2f9;
-    padding: 8px 15px;
-    border-radius: 30px;
+//     border: 2px solid #bbd2f9;
+//     padding: 8px 15px;
+//     border-radius: 30px;
 
-    background: #bbd2f9;
-    color: #fff;
-  }
-}
-</style>
+//     background: #bbd2f9;
+//     color: #fff;
+//   }
+// }
+// </style>
