@@ -72,7 +72,7 @@ export default {
   position: relative;
   top: 60%;
   left: 40%;
-  width: 100%;
+  width: 80%;
   height: 100%;
   background-color: var(#fff);
   border: 1px solid black;
