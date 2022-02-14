@@ -79,7 +79,7 @@ export default {
     })
     
     const connect = function () {
-      let socket = new SockJS("https://i6e202.p.ssafy.io:443/chat");
+      let socket = new SockJS("https://i6e202.p.ssafy.io:8443/chat");
       state.stompClient = Stomp.over(socket);
       state.stompClient.connect({},
         frame => {
