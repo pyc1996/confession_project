@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5 mb-5 d-flex justify-content-center">
+  <div class="mb-4 d-flex justify-content-center">
     <div class="outer-div">
       <div class="inner-div">
         <div class="front">
@@ -10,7 +10,7 @@
             <img :src="require('@/assets/mask/mask'+state.userInfo.maskId+'.png')" style="position: relative; width: 100%; z-index: 71;">
             <img :src="require('@/assets/back/back'+state.userInfo.backId+'.png')" style="position: relative; width: 150%; top: -120%; z-index: 70;">
           </div>
-          <div class="front__text">
+          <div class="front__text" style="font-family: Binggrae;">
             <h3 class="front__text-header">{{ state.userInfo.nickname }}</h3>
             <p>이메일: {{ state.userInfo.email }}<br>
             등급: {{ state.grade }} / 포인트: {{ state.userInfo.pointTot }}</p>
@@ -67,7 +67,7 @@ export default {
 .outer-div,
 .inner-div {
   height: 70%;
-  max-width: 85%;
+  max-width: 75%;
   margin: 0 auto;
   position: relative;
 }
@@ -120,7 +120,7 @@ export default {
 
 .front__bkg-photo {
   position: relative;
-  height: 20vh;
+  height: 8vh;
   width: 100%;
   // background: url("https://images.unsplash.com/photo-1511207538754-e8555f2bc187?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=88672068827eaeeab540f584b883cc66&auto=format&fit=crop&w=1164&q=80")
   //   no-repeat;
@@ -162,7 +162,7 @@ export default {
   top: -55px;
   margin: 0 auto;
   font-family: "Montserrat";
-  font-size: 18px;
+  font-size: 22px;
   backface-visibility: hidden;
 
   .front__text-header {
@@ -197,6 +197,7 @@ export default {
     font-size: 15px;
     color: #bbd2f9;
     backface-visibility: hidden;
+    font-family: "Binggrae-Taom";
 
     font-weight: 700;
     text-transform: uppercase;

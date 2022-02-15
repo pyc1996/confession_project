@@ -3,16 +3,17 @@
     <article class="leaderboard">
       <header>
         <h1 class="leaderboard__title">
-          <span class="mb-2 leaderboard__title--top">고민상담</span>
-          <span class="mb-3 leaderboard__title--top">최고의 상담가</span>
+          <span class="mb-3 leaderboard__title--top" style="font-family: Binggrae-Taom;">오늘의 상담가</span>
           <span class="leaderboard__title--bottom">RankingBoard</span>
         </h1>
       </header>
       
       <main class="leaderboard__profiles">
-        <article class="leaderboard__profile d-flex justify-content-around" v-for="(adviceRank, index) in state.adviceRankList" :key="index"
+        <article class="leaderboard__profile d-flex justify-content-around py-1" v-for="(adviceRank, index) in state.adviceRankList" :key="index"
         >
-          <!-- <img :src="adviceRank.profileImg" alt="Mark Zuckerberg" class="leaderboard__picture"> -->
+          <img v-if="index==0" src="@/assets/medal/medal-gold.png" alt="Mark Zuckerberg" class="leaderboard__picture">
+          <img v-else-if="index==1" src="@/assets/medal/medal-silver.png" alt="Mark Zuckerberg" class="leaderboard__picture">
+          <img v-else src="@/assets/medal/medal-bronze.png" alt="Mark Zuckerberg" class="leaderboard__picture">
           <span class="leaderboard__name">{{ adviceRank.nickname }}</span>
           <span class="leaderboard__value">{{ adviceRank.pointTot }}점</span>
         </article>
@@ -43,7 +44,7 @@ export default {
 <style scoped lang="scss">
 .leaderboard {
   max-width: 75%;
-  width: 70%;
+  width: 60%;
   border-radius: 30px;
   
   header {
@@ -109,7 +110,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
     align-items: center;
-    padding: 10px 30px 10px 10px;
+    height: 100%;
     overflow: hidden;
     border-radius: 10px;
     box-shadow: 0 5px 7px -1px rgba(51, 51, 51, 0.23);
@@ -118,22 +119,22 @@ export default {
   }
   
   &__picture {
-    max-width: 100%;
-    width: 60px;
+    // max-width: 100%;
+    width: 13%;
     border-radius: 50%;
-    box-shadow: 0 0 0 10px #ebeef3, 0 0 0 22px #f3f4f6;
   }
   
   &__name {
     color: #979cb0;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 30px;
+    padding-right: 30px;
   }
   
   &__value {
     color: #9d9cb0;
     font-weight: 700;
-    font-size: 25px;
+    font-size: 30px;
     text-align: right;
     
     & > span {

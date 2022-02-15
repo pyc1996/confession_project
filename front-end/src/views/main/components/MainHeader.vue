@@ -1,36 +1,55 @@
 <template>
-  <div id="nav" class="py-3">
+  <div id="nav">
     <span v-if="state.isSignIn" class="row">
-      <span class="col-1"> </span>
-      <span class="col-1" style="text-align: left">
-        <router-link :to="{ name: 'Home' }" style="font-size: 25px"
-          >홈</router-link
-        >
-      </span>
-      <span class="col-4 d-flex justify-content-around">
-        <router-link :to="{ name: 'Confession' }" style="font-size: 25px"
+      <div
+        class="col-1"
+        style="
+          text-align: left;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        "
+      >
+        <img
+          src="@/assets/icon.png"
+          style="
+            position: absolute;
+            width: 4%;
+            margin-left: 2%;
+            margin-bottom: 1%;
+            pointer: cursor;
+          "
+          @click="goToHome"
+        />
+      </div>
+      <span class="col-3 d-flex justify-content-around">
+        <router-link :to="{ name: 'Confession' }" style="font-size: 30px"
           >고해성사</router-link
         >
-        <router-link :to="{ name: 'Advice' }" style="font-size: 25px"
+        <router-link :to="{ name: 'Advice' }" style="font-size: 30px"
           >고민상담</router-link
         >
-        <router-link :to="{ name: 'Community' }" style="font-size: 25px"
+        <router-link
+          :to="{ name: 'History', params: { user_id: state.userInfo.id } }"
+          style="font-size: 30px"
+          >과거이력</router-link
+        >
+      </span>
+      <span class="col-3"> </span>
+      <span class="col-2 d-flex justify-content-evenly ms-5">
+        <router-link :to="{ name: 'Community' }" style="font-size: 30px"
           >게시판</router-link
         >
-        <p @click="goToChatRoom" style="font-size: 25px">채팅방</p>
-      </span>
-      <span class="col-1"> </span>
-      <span class="col-2 d-flex justify-content-evenly">
-        <router-link :to="{ name: 'Notice' }" style="font-size: 20px"
+        <router-link :to="{ name: 'Notice' }" style="font-size: 25px"
           >공지사항</router-link
         >
-        <router-link :to="{ name: 'Qna' }" style="font-size: 20px"
+        <router-link :to="{ name: 'Qna' }" style="font-size: 25px"
           >QnA</router-link
         >
       </span>
-      <span class="col-2 d-flex justify-content-evenly">
-        <p @click="clickLogout" style="font-size: 20px">로그아웃</p>
-        <p @click="goToProfile" style="font-size: 25px">프로필</p>
+      <span class="col-2 d-flex justify-content-evenly ms-5">
+        <p @click="clickLogout" style="font-size: 30px">로그아웃</p>
+        <p @click="goToProfile" style="font-size: 30px">프로필</p>
       </span>
     </span>
 
@@ -72,6 +91,12 @@ export default {
       router.push({ name: "Home" });
     };
 
+    const goToHome = async function () {
+      await router.push({
+        name: 'Home'
+      })
+    }
+
     const goToChatRoom = async function () {
       await store.dispatch("root/chatRoomGetList", {
         userId: state.userInfo.id,
@@ -93,9 +118,15 @@ export default {
       });
     };
 
+<<<<<<< HEAD
     return { state, clickLogout, goToChatRoom, goToProfile };
   },
 };
+=======
+    return { state, clickLogout, goToHome, goToChatRoom, goToProfile }
+  }
+}
+>>>>>>> master
 </script>
 
 <style scoped>
@@ -109,7 +140,7 @@ p {
   text-decoration: none;
   color: white;
   font-weight: bold;
-  line-height: 40px;
+  line-height: 100px;
   margin-bottom: 0px;
 }
 

@@ -1,27 +1,273 @@
 <template>
-  <div id="main-container" class="container">
-    <!-- meeting 입장 초기 화면 -->
-    <div id="join" v-if="!state.session">
-      <div id="img-div">
-        <img src="@/assets/ssafy.png" />
-      </div>
-      <div id="join-dialog" class="jumbotron vertical-center">
-        <h1>Join a Confession session</h1>
-        <div class="form-group">
-          <h3 v-if="data.userInfo.id === data.confessionMeetingInfo.ownerId">
-            Owner
-          </h3>
-          <p>Participant : {{ state.myUserName }}</p>
-          <p>Session : {{ state.mySessionId }}</p>
-          <p class="text-center">
-            <button class="btn btn-lg btn-success" @click="joinSession()">
-              Join!
-            </button>
-          </p>
+  <div style="background-color: rgb(225 236 255); height: 800px">
+    <div id="meetingheader" v-if="state.session">
+      <ul style="text-align: left">
+        <li style="float: left">
+          <img
+            src="http://daedogls.co.kr/views/_layout/daedo/images/page/p_icon3.png"
+            alt=""
+            style="width: 50px"
+          />
+          <span style="font-size: 15px"> &nbsp;&nbsp;CONFESSION</span>
+        </li>
+        <li>
+          <i
+            @click="leaveSession"
+            class="far fa-times-circle"
+            style="color: red; margin-left: 50px"
+            >&nbsp;<span style="font-family: Century Gothic, sans-serif"
+              >종료</span
+            ></i
+          >
+        </li>
+        <li>
+          <i
+            @click="participantShow"
+            class="fas fa-user-friends"
+            style="color: red"
+          ></i>
+        </li>
+        <li>
+          <button
+            class="front__text-hover"
+            type="button"
+            @click="clickEmojiView"
+            style="position: relative; margin-left: 50px"
+          >
+            반응
+            <div
+              v-if="state.emojiState"
+              id="emojilist"
+              style="
+                position: absolute;
+                display: flex;
+                top: 100%;
+                left: 0px;
+                transform: translateX(calc(-50% + 26px));
+                z-index: 99;
+                background: #a39d9e;
+                padding: 10px;
+                column-gap: 5px;
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-depth-2);
+              "
+            >
+              <div
+                v-for="(emoji, index) in state.EMOJI_MAP"
+                :key="index"
+                style="float: left; font-size: 25px; background-color: #a39d9e"
+                @click="sendEmoji(index)"
+              >
+                {{ emoji }}
+              </div>
+            </div>
+          </button>
+        </li>
+        <li>
+          <i
+            v-if="!state.audioEcho"
+            type="button"
+            @click="clickFilter"
+            class="fab fa-creative-commons-sampling"
+            style="color: red"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="노래방모드"
+          ></i
+          ><i
+            v-else
+            type="button"
+            @click="clickFilter"
+            class="fab fa-creative-commons-sampling"
+            style="color: green"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="노래방모드"
+          ></i>
+        </li>
+        <li>
+          <i
+            v-if="!state.maskState"
+            type="button"
+            @click="addMask"
+            class="fas fa-theater-masks"
+            style="color: red"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="모자씌우기"
+          ></i>
+          <i
+            v-else
+            type="button"
+            @click="addMask"
+            class="fas fa-theater-masks"
+            style="color: green"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="모자씌우기"
+          ></i>
+        </li>
+        <li>
+          <i
+            v-if="state.audioState"
+            @click="hideMyAudio(state.audioState)"
+            class="fas fa-microphone"
+            style="color: green"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="오디오 ON/OFF"
+          ></i>
+          <i
+            v-else
+            @click="hideMyAudio(state.audioState)"
+            class="fas fa-microphone-slash"
+            style="color: red"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="오디오 ON/OFF"
+          ></i>
+        </li>
+        <li>
+          <i
+            v-if="state.videoState"
+            @click="hideMyVideo(state.videoState)"
+            class="fas fa-video"
+            style="color: green"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="비디오 ON/OFF"
+          ></i>
+
+          <i
+            v-else
+            @click="hideMyVideo(state.videoState)"
+            class="fas fa-video-slash"
+            style="color: red"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="비디오 ON/OFF"
+          ></i>
+        </li>
+      </ul>
+    </div>
+    <div id="main-container" class="container">
+      <!-- meeting 입장 초기 화면 -->
+      <div id="join" v-if="!state.session">
+        <div
+          id="join-dialog"
+          class="jumbotron vertical-center"
+          style="padding-top: 50px"
+        >
+          <div
+            class="d-flex justify-content-center"
+            style="border-bottom: 3px solid #a6c0fe"
+          >
+            <i class="fas fa-quote-left" style="font-size: 20px"></i>
+            <h1 style="color: #333333; font-family: Century Gothic, sans-serif">
+              {{ data.confessionMeetingInfo.title }} 미팅룸
+            </h1>
+            <i class="fas fa-quote-right" style="font-size: 20px"></i>
+          </div>
+
+          <!-- <hr style="color: #a6c0fe; height: 3px" /> -->
+          <br />
+          <div
+            class="form-group"
+            style="color: #333333; font-family: Century Gothic, sans-serif"
+          >
+            <h3 v-if="data.userInfo.id === data.confessionMeetingInfo.ownerId">
+              Owner
+            </h3>
+            <h3 v-else>Guest</h3>
+
+            <div>
+              <video id="myVideo" style="border: 1px solid #ddd"></video>
+              <div class="d-flex" style="justify-content: center">
+                <button
+                  v-if="!state.videoState"
+                  class="front__text-hover"
+                  type="button"
+                  @click="getVideo"
+                  style="
+                    font-family: Century Gothic, sans-serif;
+                    font-weight: lighter;
+                  "
+                >
+                  <i
+                    class="fas fa-video"
+                    style="color: green; font-size: 15px"
+                  ></i>
+                  비디오 시작
+                </button>
+                <button
+                  v-else
+                  class="front__text-hover"
+                  type="button"
+                  @click="offVideo"
+                  style="
+                    font-family: Century Gothic, sans-serif;
+                    font-weight: lighter;
+                  "
+                >
+                  <i
+                    class="fas fa-video-slash"
+                    style="color: red; font-size: 15px"
+                  ></i>
+                  비디오 중지
+                </button>
+                <button
+                  v-if="!state.audioState"
+                  class="front__text-hover"
+                  type="button"
+                  @click="state.audioState = !state.audioState"
+                  style="
+                    margin-left: 20px;
+                    font-family: Century Gothic, sans-serif;
+                    font-weight: lighter;
+                  "
+                >
+                  <i
+                    class="fas fa-microphone"
+                    style="color: green; font-size: 15px"
+                  ></i>
+                  말하기
+                </button>
+                <button
+                  v-else
+                  class="front__text-hover"
+                  type="button"
+                  @click="state.audioState = !state.audioState"
+                  style="
+                    margin-left: 20px;
+                    font-family: Century Gothic, sans-serif;
+                    font-weight: lighter;
+                  "
+                >
+                  <i
+                    class="fas fa-microphone-slash"
+                    style="color: red; font-size: 15px"
+                  ></i>
+                  음소거
+                </button>
+                <button
+                  class="front__text-hover"
+                  @click="joinSession()"
+                  style="
+                    margin-left: 20px;
+                    font-family: Century Gothic, sans-serif;
+                    font-weight: lighter;
+                  "
+                >
+                  Join!
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
+<<<<<<< HEAD
     <!-- 화상 채팅 화면 -->
     <div id="session" v-if="state.session">
       <!-- 미팅 떠나기 버튼 -->
@@ -46,18 +292,46 @@
                   :stream-manager="sub"
                   @click.native="updateMainVideoStreamManager(sub)"
                 />
+=======
+      <!-- 화상 채팅 화면 -->
+      <div id="session" v-if="state.session">
+        <!-- 미팅 떠나기 버튼 -->
+        <div id="session-header"></div>
+
+        <!-- 스트림 화면 -->
+        <div id="session-body">
+          <div class="row">
+            <div id="stream" class="col-md-12">
+              <div class="row">
+                <div id="main-video" class="col-md-6">
+                  <user-video :stream-manager="state.mainStreamManager" />
+                </div>
+                <div id="video-container" class="col-md-6">
+                  <user-video
+                    :stream-manager="state.publisher"
+                    @click="updateMainVideoStreamManager(state.publisher)"
+                  />
+                  <user-video
+                    v-for="sub in state.subscribers"
+                    :key="sub.stream.connection.connectionId"
+                    :stream-manager="sub"
+                    @click.native="updateMainVideoStreamManager(sub)"
+                  />
+                </div>
+>>>>>>> master
               </div>
             </div>
-          </div>
-          <div id="participantRoom" class="col-md-4" style="display: none">
-            <meeting-participant
-              v-if="state.publisher"
-              :publisher="state.publisher"
-              :subscribers="state.subscribers"
-            ></meeting-participant>
+            <div id="participantRoom" class="col-md-4" style="display: none">
+              <meeting-participant
+                v-if="state.publisher"
+                :publisher="state.publisher"
+                :subscribers="state.subscribers"
+              ></meeting-participant>
+            </div>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
 
       <!-- 화상 채팅 하단에 넣을 도구 모음 -->
       <footer id="session-footer" class="container">
@@ -230,6 +504,8 @@
           </ul>
         </div>
       </footer>
+=======
+>>>>>>> master
     </div>
   </div>
 </template>
@@ -277,8 +553,8 @@ export default {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
-      videoState: true,
-      audioState: true,
+      videoState: false,
+      audioState: false,
       maskState: false,
       audioEcho: false,
       emojiState: false,
@@ -289,9 +565,17 @@ export default {
 
       mySessionId: data.confessionMeetingInfo.meetingId,
       myUserName: data.userInfo.nickname,
+
+      localstream: undefined,
     });
 
     const joinSession = async function () {
+      if (state.videoState) {
+        const myVideoStream = document.getElementById("myVideo");
+        myVideoStream.pause();
+        myVideoStream.src = "";
+        state.localstream.getTracks()[0].stop();
+      }
       if (data.userInfo.id != data.confessionMeetingInfo.ownerId) {
         await store.dispatch("root/meetingJoinRoom", {
           meeting_id: data.confessionMeetingInfo.meetingId,
@@ -348,8 +632,8 @@ export default {
               let publisher = state.OV.initPublisher(undefined, {
                 audioSource: undefined, // The source of audio. If undefined default microphone
                 videoSource: undefined, // The source of video. If undefined default webcam
-                publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-                publishVideo: true, // Whether you want to start publishing with your video enabled or not
+                publishAudio: state.videoState, // Whether you want to start publishing with your audio unmuted or not
+                publishVideo: state.audioState, // Whether you want to start publishing with your video enabled or not
                 resolution: "640x480", // The resolution of your video
                 frameRate: 30, // The frame rate of your video
                 insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
@@ -391,6 +675,14 @@ export default {
       state.publisher = undefined;
       state.subscribers = [];
       state.OV = undefined;
+<<<<<<< HEAD
+=======
+      state.videoState = false;
+      state.audioState = false;
+      state.maskState = false;
+      state.audioEcho = false;
+      state.participantState = false;
+>>>>>>> master
       await store.dispatch("root/meetingExit", {
         meeting_id: data.confessionMeetingInfo.meetingId,
         user_id: data.userInfo.id,
@@ -486,13 +778,14 @@ export default {
     };
 
     const createToken = function (sessionId) {
+      const maskback = data.userInfo.maskId + "%/%" + data.userInfo.backId;
       return new Promise((resolve, reject) => {
         axios
           .post(
             `${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`,
             JSON.stringify({
               type: "WEBRTC",
-              data: "https://placeimg.com/200/100/any",
+              data: maskback,
               role: "PUBLISHER",
               kurentoOptions: {
                 allowedFilters: ["GStreamerFilter", "FaceOverlayFilter"],
@@ -566,14 +859,6 @@ export default {
 
     const clickEmojiView = function () {
       state.emojiState ^= 1;
-      // console.log(event.target.getBoundingClientRect().top);
-      // if (state.emojiState) {
-      //   document.getElementById("emojilist").style.display = "none";
-      //   state.emojiState = false;
-      // } else {
-      //   document.getElementById("emojilist").style.display = "flex";
-      //   state.emojiState = true;
-      // }
     };
 
     const handleDisplayFlyingEmoji = function (emoji) {
@@ -645,6 +930,37 @@ export default {
       }
     };
 
+    const getVideo = function () {
+      const myVideoStream = document.getElementById("myVideo");
+      navigator.getMedia =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+      navigator.getMedia(
+        { video: true, audio: false },
+
+        function (stream) {
+          state.localstream = stream;
+          myVideoStream.srcObject = stream;
+          myVideoStream.play();
+          state.videoState = true;
+        },
+
+        function (error) {
+          alert("webcam not working");
+        }
+      );
+    };
+
+    const offVideo = function () {
+      const myVideoStream = document.getElementById("myVideo");
+      myVideoStream.pause();
+      myVideoStream.src = "";
+      state.localstream.getTracks()[0].stop();
+      state.videoState = false;
+    };
+
     return {
       data,
       state,
@@ -664,48 +980,46 @@ export default {
       handleDisplayFlyingEmoji,
       clickEmojiView,
       participantShow,
+      getVideo,
+      offVideo,
     };
   },
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+#participantRoom {
+  position: relative;
+  left: 10%;
+}
+
+#myVideo {
+  background-color: #1d1e22;
+  width: 600px;
+  height: 500px;
+  object-fit: cover;
+}
+#meetingheader {
+  padding-top: 5px;
+  border-bottom: 3px solid #a6c0fe;
+  padding-right: 50px;
+  height: 60px;
+}
+
 ul {
   list-style: none;
 }
 ul li {
   display: inline;
-  margin-left: 20px;
+  margin-left: 30px;
+  float: right;
 }
-
-button {
-  font-family: inherit;
-  font-family: "Roboto Mono", monospace;
+ul li i {
+  padding-top: 15px;
+  font-size: 22px;
 }
-.fill {
-  letter-spacing: 1px;
-  outline: 0;
-  border: 1px solid black;
+ul li i:hover {
   cursor: pointer;
-  position: relative;
-  background-color: rgba(0, 0, 0, 0);
-}
-
-.fill::after {
-  content: "";
-  background-color: #ffe54c;
-  width: 100%;
-  z-index: -1;
-  position: absolute;
-  height: 100%;
-  top: 7px;
-  left: 7px;
-  transition: 0.2s;
-}
-
-.fill:hover::after {
-  top: 0px;
-  left: 0px;
 }
 
 #emojilist:hover {
@@ -716,49 +1030,6 @@ html {
   position: relative;
   min-height: 100%;
 }
-
-nav {
-  height: 50px;
-  width: 100%;
-  z-index: 1;
-  background-color: #4d4d4d !important;
-  border-color: #4d4d4d !important;
-  border-top-right-radius: 0 !important;
-  border-top-left-radius: 0 !important;
-}
-
-.navbar-header {
-  width: 100%;
-}
-
-.nav-icon {
-  padding: 5px 15px 5px 15px;
-  float: right;
-}
-
-nav a {
-  color: #ccc !important;
-}
-
-nav i.fa {
-  font-size: 40px;
-  color: #ccc;
-}
-
-nav a:hover {
-  color: #a9a9a9 !important;
-}
-
-nav i.fa:hover {
-  color: #a9a9a9;
-}
-
-/*vertical-center {
-	position: relative;
-	top: 30%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}*/
 
 .horizontal-center {
   margin: 0 auto;
@@ -783,16 +1054,6 @@ input.btn {
 
 .btn {
   font-weight: bold !important;
-}
-
-.btn-success {
-  background-color: #06d362 !important;
-  border-color: #06d362;
-}
-
-.btn-success:hover {
-  background-color: #1abd61 !important;
-  border-color: #1abd61;
 }
 
 a:hover .demo-logo {
@@ -842,22 +1103,22 @@ a:hover .demo-logo {
   display: inline-block;
 }
 
-#buttonLeaveSession {
-  float: right;
-  margin-top: 20px;
-}
-
 #main-container {
   padding-bottom: 80px;
+  padding-top: 1%;
 }
 video {
   width: 100%;
   height: auto;
 }
 #video-container video {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   position: relative;
   float: left;
-  width: 50%;
+  // width: 45%;
   cursor: pointer;
 }
 #video-container video + div {
@@ -865,6 +1126,7 @@ video {
   width: 50%;
   position: relative;
   margin-left: -50%;
+  display: grid;
 }
 #video-container p {
   display: inline-block;
@@ -879,6 +1141,7 @@ video {
   float: left;
   width: 100%;
   cursor: pointer;
+  border-radius: 15px;
 }
 #main-video video + div {
   float: left;
@@ -894,6 +1157,8 @@ video {
   color: #777777;
   font-weight: bold;
   border-bottom-right-radius: 4px;
+  position: relative;
+  top: -30%;
 }
 
 @media screen and (max-width: 991px) and (orientation: portrait) {
