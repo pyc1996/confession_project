@@ -109,7 +109,6 @@
       <div class="col-9" align="left">
         <!-- 상담가 리스트 -->
         <div class="row d-flex justify-content-start">
-          <<<<<<< HEAD
           <div
             v-for="(confessionMeeting, index) in state.confessionMeetingList"
             :key="index"
@@ -147,7 +146,6 @@
                       alt=""
                     />
                     <div class="card__header-text">
-                      <<<<<<< HEAD
                       <h3 class="card__title">
                         {{ confessionMeeting.ownerNickname }}
                       </h3>

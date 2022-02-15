@@ -473,14 +473,11 @@ export default {
       state.publisher = undefined;
       state.subscribers = [];
       state.OV = undefined;
-<<<<<<< HEAD
-=======
       state.videoState = false;
       state.audioState = false;
       state.maskState = false;
       state.audioEcho = false;
       state.participantState = false;
->>>>>>> master
       await store.dispatch("root/meetingExit", {
         meeting_id: data.confessionMeetingInfo.meetingId,
         user_id: data.userInfo.id,
