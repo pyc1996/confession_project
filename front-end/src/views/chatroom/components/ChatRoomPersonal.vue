@@ -78,15 +78,17 @@ export default {
       message: "",
     })
     
-    const connect = function () {
-      let socket = new SockJS("http://localhost:8080/chat");
+    const connect = async function () {
+      let socket = new SockJS("https://i6e202.p.ssafy.io:8443/chat");
       state.stompClient = Stomp.over(socket);
-      state.stompClient.connect({},
+      await state.stompClient.connect({},
         frame => {
           state.socketConnected = TextTrackCue
           state.stompClient.subscribe("/send", res => {
-            store.dispatch('root/chatRoomGetDetail', { user_id: data.userId, chatRoom_id: chatRoom.chatRoomId })
+            console.log(res);
+            // store.dispatch('root/chatRoomGetDetail', { user_id: data.userId, chatRoom_id: chatRoom.chatRoomId })
             state.recvList.push(JSON.parse(res.body))
+            console.log(res);
           })
         },
         error => {
