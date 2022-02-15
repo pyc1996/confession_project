@@ -2,13 +2,13 @@
   <div>
     <!-- 카테고리 선택 -->
     <span class="mt-4 mb-4 row justify-content-evenly" style="line-height: 40px;">
-      <div class="container col-1">
+      <div class="container col-1" style="font-family: Binggrae-Taom;">
         <h1>고해성사</h1> 
       </div>
       <div class="col-5 d-flex justify-content-evenly" style="width: 40%;">
         <div @click="getConfessionView">
           <a href="#" class="cta">
-            <span>모두</span>
+            <span style="font-family: Binggrae-Taom;">모두</span>
           </a>
         </div>
         <div
@@ -17,29 +17,29 @@
           @click="clickConfessionCategory(category.number)"
         >
           <a href="#" class="cta">
-            <span>{{ category.value }}</span>
+            <span style="font-family: Binggrae-Taom;">{{ category.value }}</span>
           </a>
         </div>
       </div>
 
       <!-- 검색 후 결과 얻기 -->
-      <div class="col-4 d-flex justify-content-end">
-        <div class="dropdown me-3">
-          <input type="checkbox" id="dropdown">
+      <div class="col-4 d-flex justify-content-end" style="font-family: Binggrae-Taom;">
+        <span class="pe-3">  
+          <button class="form-control form-control-md dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
+            style="border: 2px solid #bbd2f9; box-shadow: none; border-radius: 30px; height: 80%; color: black; font-family: Binggrae-Taom;"
+          >
+            {{ state.showKey }}
+          </button>
 
-          <label class="dropdown__face" for="dropdown">
-            <div class="dropdown__text ps-3" style="text-align: left;">{{ state.showKey }}</div>
-
-            <div class="dropdown__arrow"></div>
-          </label>
-
-          <ul class="dropdown__items">
-            <li class="ps-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickConfessionList(1)">닉네임</button></li>
-            <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickConfessionList(2)">방 제목</button></li>
-            <li class="pe-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickConfessionList(3)">방 설명</button></li>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"
+            style="min-width: 12rem; border: 2px solid #bbd2f9; border-radius: 30px; padding: 0px;"
+          >
+            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(1)">닉네임</button></li>
+            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(2)">방제목</button></li>
+            <li class="px-2" style="margin-left: 0px;"><button style="text-align: center; font-family: Binggrae-Taom;" @click="clickConfessionList(2)">방설명</button></li>
           </ul>
-        </div>
-        
+        </span>
+
         <div class="searchBox">
           <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
         </div>
@@ -55,10 +55,10 @@
     <hr>
 
     <div class="row">
-      <div class="col-sm-9" align="left">
+      <div class="col-9" align="left">
         <!-- 상담가 리스트 -->
         <div class="row d-flex justify-content-start">
-          <div v-for="(confessionMeeting, index) in state.confessionMeetingList" :key="index" class="col-3 mx-5 mt-5" style="margin-bottom: 10%;">
+          <div v-for="(confessionMeeting, index) in state.confessionMeetingList" :key="index" class="col-3 px-5" style="margin-bottom: 3%;">
             <div class="card">
               <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+confessionMeeting.profileImg" class="card__image">
               <div class="card__overlay">
@@ -66,13 +66,14 @@
                   <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
                   <img class="card__thumb" :src="require('@/assets/mask/mask'+confessionMeeting.maskId+'.png')" alt="" />
                   <div class="card__header-text">
-                    <h3 class="card__title">{{ confessionMeeting.ownerNickname }}</h3>            
-                    <span class="card__status">주제: {{ confessionMeeting.topicCategoryName }}</span>
+                    <h3 class="card__title">{{ confessionMeeting.title }}</h3>            
+                    <span class="card__status">{{ confessionMeeting.topicCategoryName }}</span>
                   </div>
                 </div>
                 <div class="card__description" style="text-align: center;">
-                  <span style="font-weight: bold;">{{ confessionMeeting.description }}</span><br><hr>
-                  <span>{{ confessionMeeting.currJoinParticipants }} / {{ confessionMeeting.participants }}</span><br><br>
+                  <span style="font-weight: bold;">설명 : {{ confessionMeeting.description }}</span><br><hr>
+                  <span>방장 : {{ confessionMeeting.ownerNickname }}</span><br>
+                  <span>{{ confessionMeeting.currJoinParticipants+1 }} / {{ confessionMeeting.participants }}</span><br><br>
                   <button
                     type="button"
                     class="front__text-hover"
@@ -96,7 +97,7 @@
           <button id="next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-3">
         <confession-user :userInfo="state.userInfo"></confession-user>
         <br>
         <br>
@@ -269,20 +270,20 @@ export default {
 
       if(state.pageSearchTopic === 'main') {
         await store.dispatch("root/confessionPageSearch",{
-          size: 6,
+          size: 8,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'topic') {
         await store.dispatch("root/confessionTopicPageSearch",{
           topicCategoryId: state.topic,
-          size: 6,
+          size: 8,
           page: state.page,
         })
       } else if (state.pageSearchTopic === 'search') {
         await store.dispatch("root/confessionSearchPageSearch",{
           key: state.key,
           value: state.word,
-          size: 6,
+          size: 8,
           page: state.page,
         })
       }
@@ -417,7 +418,7 @@ a {
     display: block;
     border-radius: 28px;
     background: rgba(#bbd2f9,.5);
-    width: 56px;
+    width: 100%;
     height: 56px;
     transition: all .3s ease;
   }
@@ -469,7 +470,7 @@ a {
   position: relative;
   display: flex;
   width: 100%;
-  height: 40vh;  
+  height: 32vh;  
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
@@ -538,7 +539,7 @@ a {
 }
 
 .card__title {
-  font-size: 1em;
+  font-size: 1.5em;
   margin: 0 0 .3em;
   color: #6A515E;
 }
@@ -552,15 +553,15 @@ a {
 }
 
 .card__status {
-  font-size: .8em;
+  font-size: 1.1em;
   color: #D7BDCA;
 }
 
 .card__description {
   padding: 0 2em 2em;
   margin: 0;
-  color: #D7BDCA;
-  font-family: "MockFlowFont";   
+  color: #6A515E;
+  font-family: "Binggrae-Taom";   
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
@@ -572,6 +573,7 @@ a {
     font-size: 15px;
     color: #bbd2f9;
     backface-visibility: hidden;
+    font-family: "Binggrae-Taom";
 
     font-weight: 700;
     text-transform: uppercase;
@@ -697,8 +699,8 @@ button {
   position: absolute;
   width: 100%;
   margin-top: -15px;
-  font-size: 20px;
-  font-family: Helvetica, sans-serif;
+  font-size: 30px;
+  font-family: "Binggrae";
   text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
   color: #708bef;
   z-index: -1;
@@ -813,7 +815,7 @@ button {
   list-style: none;
   list-style-type: none;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   visibility: hidden;
   z-index: -1;
   opacity: 1;
@@ -835,7 +837,7 @@ button {
   display: none;
 }
 .dropdown input:checked ~ .dropdown__items {
-  top: calc(100% + 25px);
+  top: calc(100% + 35px);
   visibility: visible;
   opacity: 1;
 }
