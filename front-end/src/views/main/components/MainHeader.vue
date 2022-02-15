@@ -93,9 +93,9 @@ export default {
 
     const goToHome = async function () {
       await router.push({
-        name: 'Home'
-      })
-    }
+        name: "Home",
+      });
+    };
 
     const goToChatRoom = async function () {
       await store.dispatch("root/chatRoomGetList", {
@@ -118,15 +118,9 @@ export default {
       });
     };
 
-<<<<<<< HEAD
-    return { state, clickLogout, goToChatRoom, goToProfile };
+    return { state, clickLogout, goToHome, goToChatRoom, goToProfile };
   },
 };
-=======
-    return { state, clickLogout, goToHome, goToChatRoom, goToProfile }
-  }
-}
->>>>>>> master
 </script>
 
 <style scoped>
