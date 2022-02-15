@@ -404,15 +404,9 @@ export default {
         pl.disabled = false;
       }
 
-<<<<<<< HEAD
       if (state.pageSearchTopic === "main") {
         await store.dispatch("root/confessionPageSearch", {
-          size: 6,
-=======
-      if(state.pageSearchTopic === 'main') {
-        await store.dispatch("root/confessionPageSearch",{
           size: 8,
->>>>>>> master
           page: state.page,
         });
       } else if (state.pageSearchTopic === "topic") {
@@ -563,13 +557,8 @@ a {
     left: 0;
     display: block;
     border-radius: 28px;
-<<<<<<< HEAD
     background: rgba(#bbd2f9, 0.5);
-    width: 56px;
-=======
-    background: rgba(#bbd2f9,.5);
     width: 100%;
->>>>>>> master
     height: 56px;
     transition: all 0.3s ease;
   }
@@ -621,11 +610,7 @@ a {
   position: relative;
   display: flex;
   width: 100%;
-<<<<<<< HEAD
-  height: 40vh;
-=======
   height: 32vh;
->>>>>>> master
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
@@ -694,15 +679,9 @@ a {
 }
 
 .card__title {
-<<<<<<< HEAD
-  font-size: 1em;
+  font-size: 1.5em;
   margin: 0 0 0.3em;
   color: #6a515e;
-=======
-  font-size: 1.5em;
-  margin: 0 0 .3em;
-  color: #6A515E;
->>>>>>> master
 }
 
 .card__tagline {
@@ -714,25 +693,15 @@ a {
 }
 
 .card__status {
-<<<<<<< HEAD
-  font-size: 0.8em;
-  color: #d7bdca;
-=======
   font-size: 1.1em;
-  color: #D7BDCA;
->>>>>>> master
+  color: #d7bdca;
 }
 
 .card__description {
   padding: 0 2em 2em;
   margin: 0;
-<<<<<<< HEAD
-  color: #d7bdca;
-  font-family: "MockFlowFont";
-=======
-  color: #6A515E;
+  color: #6a515e;
   font-family: "Binggrae-Taom";
->>>>>>> master
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
