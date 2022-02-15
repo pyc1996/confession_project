@@ -22,7 +22,7 @@
     <!-- 내가 추가한 부분 -->
     <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
       <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-      <img class="card__thumb" v-bind:src="state.profileImgThumbnail">
+      <img class="card__thumb" v-bind:src="profile.profileImgThumbnail">
     </div>
     <br>
     <div class="d-flex justify-content-start">
@@ -35,13 +35,14 @@
     <br>
     <h3>마스크 변경</h3>
     <br>
-    <div id="mask_id" class="thumbnail-wrapper">
+    <div id="mask_id" class="mask-wrapper">
       <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-      <img class="card__thumb">
+      <img class="card__back" :src="mask.backUrl">
+      <img class="card__mask" :src="mask.maskUrl">
     </div>
     <br>
     <div class="d-flex justify-content-start">
-      <button class="front__text-hover d-flex justify-content-start"  data-bs-toggle="modal" data-bs-target="#exampleModal">선택하기</button>
+      <button class="front__text-hover d-flex justify-content-start"  data-bs-toggle="modal" data-bs-target="#exampleModal">마스크 선택하기</button>
       <!-- 마스크 모달 -->
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -52,14 +53,48 @@
             </div>
             <div class="modal-body">
               <form>
-                <div class="mb-3">
-                  
+                <div class="modalmask mb-3 row d-flex">
+                  <img src="@/assets/mask/mask1.png" @click="clickSelectMask(1, $event)" class="col-4" id="mask-1">
+                  <img src="@/assets/mask/mask2.png" @click="clickSelectMask(2, $event)" class="col-4" id="mask-2">
+                  <img src="@/assets/mask/mask3.png" @click="clickSelectMask(3, $event)" class="col-4" id="mask-3">
+                  <img src="@/assets/mask/mask4.png" @click="clickSelectMask(4, $event)" class="col-4" id="mask-4">
+                  <img src="@/assets/mask/mask5.png" @click="clickSelectMask(5, $event)" class="col-4" id="mask-5">
+                  <img src="@/assets/mask/mask6.png" @click="clickSelectMask(6, $event)" class="col-4" id="mask-6">
+                  <img src="@/assets/mask/mask7.png" @click="clickSelectMask(7, $event)" class="col-4" id="mask-7">
+                  <img src="@/assets/mask/mask8.png" @click="clickSelectMask(8, $event)" class="col-4" id="mask-8">
+                  <img src="@/assets/mask/mask9.png" @click="clickSelectMask(9, $event)" class="col-4" id="mask-9">
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="clickSelectMask">Select</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="front__text-hover d-flex justify-content-start ms-3"  data-bs-toggle="modal" data-bs-target="#exampleModal2">배경 선택하기</button>
+      <!-- 마스크 모달 -->
+      <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel2">마스크를 선택하세요.</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="modalback mb-3 row d-flex">
+                  <img src="@/assets/back/back1.png" alt="" @click="clickSelectBack(1, $event)" class="col-6 mb-3" id="back-1">
+                  <img src="@/assets/back/back2.png" alt="" @click="clickSelectBack(2, $event)" class="col-6 mb-3" id="back-2">
+                  <img src="@/assets/back/back3.png" alt="" @click="clickSelectBack(3, $event)" class="col-6" id="back-3">
+                  <img src="@/assets/back/back4.png" alt="" @click="clickSelectBack(4, $event)" class="col-6" id="back-4">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Select</button>
             </div>
           </div>
         </div>
@@ -114,25 +149,31 @@ import { useRouter } from 'vue-router'
 
 export default {
   name: 'ProfileUser',
-  props: {
-    userInfo : Object,
-  },
-  setup(props) {
+  setup() {
     const store = useStore()
     const router = useRouter()
 
     const state = reactive({
-      userInfo: props.userInfo,
+      userInfo: computed(() => store.getters['root/userInfo']),
       nickname: null,
       nicknameMessage: '',
       nicknameValid: false,
-      maskId : null,
       profileImg : null,
-      profileImgThumbnail : `/profile/image/${props.userInfo.id}`,
 			profileNicknameBool: computed(() => store.getters['root/profileNicknameBool']),
       password: null,
       newPassword: null,
       newPasswordConfirmation: null,
+    })
+
+    const profile = reactive({
+      profileImgThumbnail : computed(() => `https://e202.s3.ap-northeast-2.amazonaws.com/${state.userInfo.profileImg}`),
+    })
+
+    const mask = reactive({
+      maskId : null,
+      backId: null,
+      maskUrl: computed(() => require('@/assets/mask/mask'+state.userInfo.maskId+'.png')),
+      backUrl: computed(() => require('@/assets/back/back'+state.userInfo.backId+'.png'))
     })
 
     const clickgetNickname = function () {
@@ -170,12 +211,36 @@ export default {
       await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
     }
 
-    const clickSelectMask = async function (event) {
-      state.maskId = event
+    const clickSelectMask = async function (num, event) {
+      mask.maskId = num
+      let targetId = event.currentTarget.id
+      const topic_tag = document.getElementById(targetId)
+      document.getElementById('mask-1').setAttribute('data-state', '')
+      document.getElementById('mask-2').setAttribute('data-state', '')
+      document.getElementById('mask-3').setAttribute('data-state', '')
+      document.getElementById('mask-4').setAttribute('data-state', '')
+      document.getElementById('mask-5').setAttribute('data-state', '')
+      document.getElementById('mask-6').setAttribute('data-state', '')
+      document.getElementById('mask-7').setAttribute('data-state', '')
+      document.getElementById('mask-8').setAttribute('data-state', '')
+      document.getElementById('mask-9').setAttribute('data-state', '')
+      topic_tag.setAttribute('data-state', 'active')
+    }
+
+    const clickSelectBack = async function (num, event) {
+      mask.backId = num
+      let targetId = event.currentTarget.id
+      const topic_tag = document.getElementById(targetId)
+      document.getElementById('back-1').setAttribute('data-state', '')
+      document.getElementById('back-2').setAttribute('data-state', '')
+      document.getElementById('back-3').setAttribute('data-state', '')
+      document.getElementById('back-4').setAttribute('data-state', '')
+      topic_tag.setAttribute('data-state', 'active')
     }
 
     const clickmodifyMask = async function () {
-      await store.dispatch('root/profileModifyMask', { user_id: state.userInfo.id, mask_id: state.maskId})
+      await store.dispatch('root/profileModifyMask', { user_id: state.userInfo.id, mask_id: mask.maskId})
+      await store.dispatch('root/profileModifyBack', { user_id: state.userInfo.id, mask_id: mask.backId})
       await store.dispatch('root/userGetInfo', localStorage.getItem('jwt'))
     }
 
@@ -184,7 +249,7 @@ export default {
       if( event.target.files && event.target.files.length > 0 ) {
         const file = event.target.files[0];
         state.profileImg = file;
-        state.profileImgThumbnail = URL.createObjectURL(file); // 파일 경로로 바꿔서 추가
+        profile.profileImgThumbnail = URL.createObjectURL(file); // 파일 경로로 바꿔서 추가
       }
     }
 
@@ -208,10 +273,11 @@ export default {
     }
 
     return {
-      onMounted, state, 
+      onMounted, state, mask, profile,
       clickgetNickname, 
       clickValidateNickname,
       clickSelectMask,
+      clickSelectBack,
       clickmodifyNickname, 
       clickmodifyMask, 
       changeImgFile, // 수정
@@ -224,6 +290,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.modalmask img[data-state=active] {
+  // border: 4px solid green;
+  background: grey;
+}
+
+.modalback img[data-state=active] {
+  border: 10px solid grey;
+  background: grey;
+}
+
 .searchBox {
   position: relative;
   // transform:  translate(-50%,50%);
@@ -289,5 +366,26 @@ export default {
   width: 100%;
   height: 100%;      
   border-radius: 50%;      
+}
+
+.mask-wrapper{
+  width: 300px;
+  height: 100px;
+}
+
+.card__back {
+  flex-shrink: 0;
+  width: 160px;
+  height: 110px;      
+  border: 1px solid grey;
+  // border-radius: 50%;      
+}
+
+.card__mask {
+  position: relative;
+  flex-shrink: 0;
+  height: 105px;
+  left: -120px;
+  // border-radius: 50%;      
 }
 </style>

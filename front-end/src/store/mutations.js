@@ -56,24 +56,59 @@ export function PROFILE_CONSULTANT_LIKE(state, data) {
   }
 }
 
-export function PROFILE_GET_HISTORY_MEETING(state, data) {
+export function PROFILE_GET_HISTORY_CONFESSION_MEETING(state, data) {
+  state.profileHistoryConfessionLastPageNum = data.totalPages
   state.profileHistoryConfession = []
-  state.profileHistoryConfession = data.confession
-  state.profileHistoryAdvice = []
-  state.profileHistoryAdvice = data.advice
+  let min = Math.min(3, data.content.length)
+  for (let i = 0; i < min; i++) {
+    state.profileHistoryConfession.push({
+      nickname: data.content[i].userNickname,
+      userMaskId: data.content[i].userMaskId,
+      userProfileImg: data.content[i].userProfileImg,
+      topicCategoryId: data.content[i].topicCategoryId,
+      description: data.content[i].meeting.description,
+      title: data.content[i].meeting.title,
+      createdDate: data.content[i].meetingHistory.createdDate,
+      endDate: data.content[i].meetingHistory.modifiedDate,
+      participants: data.content[i].meeting.participants
+    })
+  }
 }
 
-export function PROFILE_GET_HISTORY_REVIEW(state, data) {
-  state.profileHistoryReceivedReview = data.receivedReview
-  state.profileHistoryWrittenReview = data.writtenReview
+export function PROFILE_GET_HISTORY_ADVICE_MEETING(state, data) {
+  state.profileHistoryAdviceLastPageNum = data.totalPages
+  state.profileHistoryAdvice = []
+  let min = Math.min(3, data.content.length)
+  for (let i = 0; i < min; i++) {
+    state.profileHistoryAdvice.push({
+      nickname: data.content[i].userNickname,
+      userMaskId: data.content[i].userMaskId,
+      userProfileImg: data.content[i].userProfileImg,
+      topicCategoryId: data.content[i].topicCategoryId,
+      createdDate: data.content[i].meetingHistory.createdDate,
+      endDate: data.content[i].meeting.callEndTime,
+    })
+  }
+}
+
+export function PROFILE_GET_HISTORY_RECEIVED_REVIEW(state, data) {
+  state.profileHistoryReceivedReview = data.content
+  state.profileHistoryReceivedReviewLastPageNum = data.totalPages
+}
+
+export function PROFILE_GET_HISTORY_WRITTEN_REVIEW(state, data) {
+  state.profileHistoryWrittenReview = data.content
+  state.profileHistoryWrittenReviewLastPageNum = data.totalPages
 }
 
 export function PROFILE_GET_HISTORY_COMMUNITY(state, data) {
-  state.profileHistoryCommunity = data
+  state.profileHistoryCommunityLastPageNum = data.totalPages
+  state.profileHistoryCommunity = data.content
 }
 
 export function PROFILE_GET_HISTORY_COMMENT(state, data) {
-  state.profileHistoryComment = data
+  state.profileHistoryComment = data.content
+  state.profileHistoryCommentLastPageNum = data.totalPages
 }
 
 export function CONFESSION_GET_LAST_PAGE_NUM(state, data) {
@@ -95,7 +130,8 @@ export function CONFESSION_GET_CONSULTANT_LIST(state, data) {
       currJoinParticipants: data[i].currJoinParticipants,
       topicCategoryId: data[i].topicCategoryId,
       topicCategoryName: data[i].topicCategoryName,
-      mask: data[i].mask,
+      maskId: data[i].maskId,
+      backId: data[i].backId,
       profileImg: data[i].profileImg
     })
   }
@@ -150,6 +186,8 @@ export function ADVICE_GET_CONSULTANT_LIST(state, data) {
       description: data[i].description,
       consultingCnt: data[i].consultingCnt,
       favConsultant: data[i].favConsultant,
+      maskId: data[i].maskId,
+      backId: data[i].backId,
     })
   }
 }
@@ -173,7 +211,8 @@ export function COMMUNITY_GET_DETAIL(state, payload) {
     title: payload.title,
     user_id: payload.userId,
     userNickname: payload.userNickname,
-    viewCnt: payload.viewCnt
+    viewCnt: payload.viewCnt,
+    createdDate: payload.createdDate
   }
 }
 

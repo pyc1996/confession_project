@@ -36,24 +36,48 @@ export function profileHistoryConfession(state) {
   return state.profileHistoryConfession
 }
 
+export function profileHistoryConfessionLastPageNum(state) {
+  return state.profileHistoryConfessionLastPageNum
+}
+
 export function profileHistoryAdvice(state) {
   return state.profileHistoryAdvice
+}
+
+export function profileHistoryAdviceLastPageNum(state) {
+  return state.profileHistoryAdviceLastPageNum
 }
 
 export function profileHistoryReceivedReview(state) {
   return state.profileHistoryReceivedReview
 }
 
+export function profileHistoryReceivedReviewLastPageNum(state) {
+  return state.profileHistoryReceivedReviewLastPageNum
+}
+
 export function profileHistoryWrittenReview(state) {
   return state.profileHistoryWrittenReview
+}
+
+export function profileHistoryWrittenReviewLastPageNum(state) {
+  return state.profileHistoryWrittenReviewLastPageNum
 }
 
 export function profileHistoryCommunity(state) {
   return state.profileHistoryCommunity
 }
 
+export function profileHistoryCommunityLastPageNum(state) {
+  return state.profileHistoryCommunityLastPageNum
+}
+
 export function profileHistoryComment(state) {
   return state.profileHistoryComment
+}
+
+export function profileHistoryCommentLastPageNum(state) {
+  return state.profileHistoryCommentLastPageNum
 }
 
 export function confessionMeetingList(state) {
