@@ -2,35 +2,30 @@
   <div id="main-container" class="container">
     <!-- meeting 입장 초기 화면 -->
     <div id="join" v-if="!state.session">
-        <div id="img-div">
-          <img src="@/assets/ssafy.png" />
-        </div>
-        <div id="join-dialog" class="jumbotron vertical-center">
-          <h1>Join a Confession session</h1>
-          <div class="form-group">
-            <h3 v-if="data.userInfo.id === data.confessionMeetingInfo.ownerId">
-              Owner
-            </h3>
-            <p>
-              Participant : {{ state.myUserName }}
-            </p>
-            <p>
-              Session : {{ state.mySessionId }}
-            </p>
-            <p class="text-center">
-              <button class="btn btn-lg btn-success" @click="joinSession()">
-                Join!
-              </button>
-            </p>
-          </div>
+      <div id="img-div">
+        <img src="@/assets/ssafy.png" />
+      </div>
+      <div id="join-dialog" class="jumbotron vertical-center">
+        <h1>Join a Confession session</h1>
+        <div class="form-group">
+          <h3 v-if="data.userInfo.id === data.confessionMeetingInfo.ownerId">
+            Owner
+          </h3>
+          <p>Participant : {{ state.myUserName }}</p>
+          <p>Session : {{ state.mySessionId }}</p>
+          <p class="text-center">
+            <button class="btn btn-lg btn-success" @click="joinSession()">
+              Join!
+            </button>
+          </p>
         </div>
       </div>
+    </div>
 
     <!-- 화상 채팅 화면 -->
     <div id="session" v-if="state.session">
       <!-- 미팅 떠나기 버튼 -->
-      <div id="session-header">
-      </div>
+      <div id="session-header"></div>
 
       <!-- 스트림 화면 -->
       <div id="session-body">
@@ -130,7 +125,12 @@
                 ></i>
                 Mask ON
               </button>
-              <button class="front__text-hover" v-else type="button" @click="addMask">
+              <button
+                class="front__text-hover"
+                v-else
+                type="button"
+                @click="addMask"
+              >
                 <i
                   class="fas fa-user-circle"
                   style="color: orange; font-size: 15px"
@@ -151,7 +151,12 @@
                 ></i>
                 echo ON
               </button>
-              <button class="front__text-hover" v-else type="button" @click="clickFilter">
+              <button
+                class="front__text-hover"
+                v-else
+                type="button"
+                @click="clickFilter"
+              >
                 <i
                   class="fas fa-times"
                   style="color: blue; font-size: 15px"
@@ -160,7 +165,11 @@
               </button>
             </li>
             <li>
-              <button class="front__text-hover" type="button" @click="leaveSession">
+              <button
+                class="front__text-hover"
+                type="button"
+                @click="leaveSession"
+              >
                 <i
                   class="far fa-times-circle"
                   style="color: red; font-size: 15px"
@@ -169,7 +178,11 @@
               </button>
             </li>
             <li style="float: right">
-              <button class="front__text-hover" type="button" @click="participantShow">
+              <button
+                class="front__text-hover"
+                type="button"
+                @click="participantShow"
+              >
                 <i class="fas fa-user-friends" style="font-size: 15px"></i>
                 참가자
               </button>
@@ -225,13 +238,13 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo.vue";
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://i6E202.p.ssafy.io:9000";
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_URL = "https://i6E202.p.ssafy.io:9000";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 import { computed, reactive } from "vue";
@@ -246,13 +259,17 @@ export default {
   },
 
   setup() {
-    const store = useStore()
-    const router = useRouter()
+    const store = useStore();
+    const router = useRouter();
     const data = reactive({
       userInfo: computed(() => store.getters["root/userInfo"]),
-      confessionMeetingInfo: computed(() => store.getters['root/confessionMeetingInfo']),
-      meetingParticipantLimit: computed(() => store.getters['root/meetingParticipantLimit'])
-    })
+      confessionMeetingInfo: computed(
+        () => store.getters["root/confessionMeetingInfo"]
+      ),
+      meetingParticipantLimit: computed(
+        () => store.getters["root/meetingParticipantLimit"]
+      ),
+    });
 
     const state = reactive({
       OV: undefined,
@@ -276,14 +293,14 @@ export default {
 
     const joinSession = async function () {
       if (data.userInfo.id != data.confessionMeetingInfo.ownerId) {
-        await store.dispatch('root/meetingJoinRoom', {
+        await store.dispatch("root/meetingJoinRoom", {
           meeting_id: data.confessionMeetingInfo.meetingId,
-          user_id: data.userInfo.id
-        })
+          user_id: data.userInfo.id,
+        });
       }
       if (data.meetingParticipantLimit == false) {
-        alert('참가할 수 없습니다.')
-        await router.push({ name: "Confession" })
+        alert("참가할 수 없습니다.");
+        await router.push({ name: "Confession" });
       } else {
         // --- Get an OpenVidu object ---
         state.OV = new OpenVidu();
@@ -345,7 +362,9 @@ export default {
               // --- Publish your stream ---
               state.session.publish(state.publisher);
               console.log(state.publisher);
-              console.log(state.publisher.stream.connection.data.split("%/%")[1]);
+              console.log(
+                state.publisher.stream.connection.data.split("%/%")[1]
+              );
             })
             .catch((error) => {
               console.log(
@@ -372,18 +391,22 @@ export default {
       state.publisher = undefined;
       state.subscribers = [];
       state.OV = undefined;
-      await store.dispatch('root/meetingExit', {
+      await store.dispatch("root/meetingExit", {
         meeting_id: data.confessionMeetingInfo.meetingId,
         user_id: data.userInfo.id,
-        owner_id: data.confessionMeetingInfo.ownerId
-      })
-      await store.dispatch('root/confessionReviewList', data.confessionMeetingInfo.meetingId)
-      await router.push({ name: 'ReviewConfession',
+        owner_id: data.confessionMeetingInfo.ownerId,
+      });
+      await store.dispatch(
+        "root/confessionReviewList",
+        data.confessionMeetingInfo.meetingId
+      );
+      await router.push({
+        name: "ReviewConfession",
         params: {
           user_id: data.userInfo.id,
-          meeting_id: data.confessionMeetingInfo.meetingId
-        }
-      })
+          meeting_id: data.confessionMeetingInfo.meetingId,
+        },
+      });
 
       window.removeEventListener("beforeunload", leaveSession);
     };
@@ -557,15 +580,15 @@ export default {
       console.log(`⭐ Displaying flying emoji: ${emoji}`);
 
       const node = document.createElement("mydiv");
-      console.log(node)
+      console.log(node);
       node.appendChild(document.createTextNode(emoji));
-      console.log(node)
+      console.log(node);
       node.className =
         Math.random() * 1 > 0.5 ? "emoji wiggle-1" : "emoji wiggle-2";
       // node.style.transform = `rotate(${-30 + Math.random() * 60}deg)`;
-      const deg = 10
-      const leftper = 20
-      const topper = 60
+      const deg = 10;
+      const leftper = 20;
+      const topper = 60;
       node.style.transform = `translateX(${deg})`;
       // node.style.left = `${Math.random() * 100}%`;
       node.style.right = `${leftper}%`;
@@ -979,7 +1002,7 @@ mydiv {
 
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .4px;
+  letter-spacing: 0.4px;
 
   border: 2px solid;
   padding: 8px 15px;
