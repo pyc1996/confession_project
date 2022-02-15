@@ -288,6 +288,10 @@ export default {
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 400;
   animation: blink-effect 1s step-end infinite;
+
+  &:focus {
+    animation: none;
+  }
 }
 
 .container .right .write button {

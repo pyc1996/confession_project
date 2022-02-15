@@ -1,11 +1,14 @@
 <template>
   <div>
     <!-- 카테고리 선택 -->
-    <span class="mt-4 mb-4 row justify-content-evenly" style="line-height: 40px;">
+    <span
+      class="mt-4 mb-4 row justify-content-evenly"
+      style="line-height: 40px"
+    >
       <div class="container col-1">
-        <h1>고해성사</h1> 
+        <h1>고해성사</h1>
       </div>
-      <div class="col-5 d-flex justify-content-evenly" style="width: 40%;">
+      <div class="col-5 d-flex justify-content-evenly" style="width: 40%">
         <div @click="getConfessionView">
           <a href="#" class="cta">
             <span>모두</span>
@@ -25,23 +28,51 @@
       <!-- 검색 후 결과 얻기 -->
       <div class="col-4 d-flex justify-content-end">
         <div class="dropdown me-3">
-          <input type="checkbox" id="dropdown">
+          <input type="checkbox" id="dropdown" />
 
           <label class="dropdown__face" for="dropdown">
-            <div class="dropdown__text ps-3" style="text-align: left;">{{ state.showKey }}</div>
+            <div class="dropdown__text ps-3" style="text-align: left">
+              {{ state.showKey }}
+            </div>
 
             <div class="dropdown__arrow"></div>
           </label>
 
           <ul class="dropdown__items">
-            <li class="ps-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickConfessionList(1)">닉네임</button></li>
-            <li class="px-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickConfessionList(2)">방 제목</button></li>
-            <li class="pe-1" style="margin-left: 0px;"><button style="text-align: center;" @click="clickConfessionList(3)">방 설명</button></li>
+            <li class="ps-1" style="margin-left: 0px">
+              <button
+                style="text-align: center"
+                @click="clickConfessionList(1)"
+              >
+                닉네임
+              </button>
+            </li>
+            <li class="px-1" style="margin-left: 0px">
+              <button
+                style="text-align: center"
+                @click="clickConfessionList(2)"
+              >
+                방 제목
+              </button>
+            </li>
+            <li class="pe-1" style="margin-left: 0px">
+              <button
+                style="text-align: center"
+                @click="clickConfessionList(3)"
+              >
+                방 설명
+              </button>
+            </li>
           </ul>
         </div>
-        
+
         <div class="searchBox">
-          <input class="searchInput" type="text" placeholder="Search" v-model="state.word">
+          <input
+            class="searchInput"
+            type="text"
+            placeholder="Search"
+            v-model="state.word"
+          />
         </div>
         <button
           type="button"
@@ -52,27 +83,59 @@
         </button>
       </div>
     </span>
-    <hr>
+    <hr />
 
     <div class="row">
       <div class="col-sm-9" align="left">
         <!-- 상담가 리스트 -->
         <div class="row d-flex justify-content-start">
-          <div v-for="(confessionMeeting, index) in state.confessionMeetingList" :key="index" class="col-3 mx-5 mt-5" style="margin-bottom: 10%;">
+          <div
+            v-for="(confessionMeeting, index) in state.confessionMeetingList"
+            :key="index"
+            class="col-3 mx-5 mt-5"
+            style="margin-bottom: 10%"
+          >
             <div class="card">
-              <img :src="'https://e202.s3.ap-northeast-2.amazonaws.com/'+confessionMeeting.profileImg" class="card__image">
+              <img
+                :src="
+                  'https://e202.s3.ap-northeast-2.amazonaws.com/' +
+                  confessionMeeting.profileImg
+                "
+                class="card__image"
+              />
               <div class="card__overlay">
                 <div class="card__header">
-                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg"><path /></svg>                 
-                  <img class="card__thumb" :src="require('@/assets/mask/mask'+confessionMeeting.maskId+'.png')" alt="" />
+                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
+                    <path />
+                  </svg>
+                  <img
+                    class="card__thumb"
+                    :src="
+                      require('@/assets/mask/mask' +
+                        confessionMeeting.maskId +
+                        '.png')
+                    "
+                    alt=""
+                  />
                   <div class="card__header-text">
-                    <h3 class="card__title">{{ confessionMeeting.ownerNickname }}</h3>            
-                    <span class="card__status">주제: {{ confessionMeeting.topicCategoryName }}</span>
+                    <h3 class="card__title">
+                      {{ confessionMeeting.ownerNickname }}
+                    </h3>
+                    <span class="card__status"
+                      >주제: {{ confessionMeeting.topicCategoryName }}</span
+                    >
                   </div>
                 </div>
-                <div class="card__description" style="text-align: center;">
-                  <span style="font-weight: bold;">{{ confessionMeeting.description }}</span><br><hr>
-                  <span>{{ confessionMeeting.currJoinParticipants }} / {{ confessionMeeting.participants }}</span><br><br>
+                <div class="card__description" style="text-align: center">
+                  <span style="font-weight: bold">{{
+                    confessionMeeting.description
+                  }}</span
+                  ><br />
+                  <hr />
+                  <span
+                    >{{ confessionMeeting.currJoinParticipants + 1 }} /
+                    {{ confessionMeeting.participants }}</span
+                  ><br /><br />
                   <button
                     type="button"
                     class="front__text-hover"
@@ -81,25 +144,30 @@
                     참가하기
                   </button>
                 </div>
-
               </div>
-            </div>      
+            </div>
           </div>
         </div>
-        <br>
+        <br />
 
         <!-- pagination -->
-        <br>
+        <br />
         <div class="d-flex justify-content-center mb-5">
-          <button id="prev" class="paginate left" @click="checkPage($event)"><i></i><i></i></button>
-          <div class="counter">{{state.page}}페이지 / {{ state.confessionLastPageNum }}페이지 </div>
-          <button id="next" class="paginate right" @click="checkPage($event)"><i></i><i></i></button>
+          <button id="prev" class="paginate left" @click="checkPage($event)">
+            <i></i><i></i>
+          </button>
+          <div class="counter">
+            {{ state.page }}페이지 / {{ state.confessionLastPageNum }}페이지
+          </div>
+          <button id="next" class="paginate right" @click="checkPage($event)">
+            <i></i><i></i>
+          </button>
         </div>
       </div>
       <div class="col-sm-3">
         <confession-user :userInfo="state.userInfo"></confession-user>
-        <br>
-        <br>
+        <br />
+        <br />
         <confession-create :userInfo="state.userInfo"></confession-create>
       </div>
     </div>
@@ -107,29 +175,35 @@
 </template>
 
 <script>
-import { onMounted, reactive, computed } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import ConfessionCreate from './ConfessionCreate.vue'
-import ConfessionUser from './ConfessionUser.vue'
+import { onMounted, reactive, computed } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import ConfessionCreate from "./ConfessionCreate.vue";
+import ConfessionUser from "./ConfessionUser.vue";
 
 export default {
-  name: 'ConfessionView',
+  name: "ConfessionView",
   components: {
-    ConfessionCreate, 
-    ConfessionUser
+    ConfessionCreate,
+    ConfessionUser,
   },
   props: {
     userInfo: Object,
   },
   setup(props) {
-    const store = useStore()
-    const router = useRouter()
+    const store = useStore();
+    const router = useRouter();
     const state = reactive({
       userInfo: props.userInfo,
-      confessionMeetingList: computed(() => store.getters['root/confessionMeetingList']),
-      confessionLastPageNum: computed(() => store.getters["root/confessionLastPageNum"]),
-      confessionMeetingInfo: computed(() => store.getters['root/confessionMeetingInfo']),
+      confessionMeetingList: computed(
+        () => store.getters["root/confessionMeetingList"]
+      ),
+      confessionLastPageNum: computed(
+        () => store.getters["root/confessionLastPageNum"]
+      ),
+      confessionMeetingInfo: computed(
+        () => store.getters["root/confessionMeetingInfo"]
+      ),
       categories: [
         { value: "학업", number: "1" },
         { value: "가정", number: "2" },
@@ -141,172 +215,195 @@ export default {
       searchCategories: [
         { value: "닉네임", backValue: "ownerNickname" },
         { value: "방 제목", backValue: "title" },
-        { value: "방 설명" , backValue: "description"},
+        { value: "방 설명", backValue: "description" },
       ],
-      showKey: 'Select',
+      showKey: "Select",
       key: "Select",
       word: null,
       page: 1,
       topic: null,
-      pageSearchTopic: 'main',
-    })
+      pageSearchTopic: "main",
+    });
 
     onMounted(() => {
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
+      const pr = document.querySelector(".paginate.left");
+      const pl = document.querySelector(".paginate.right");
 
-      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
-      if (state.page===1) {
-        pr.disabled = true
+      pr.setAttribute("data-state", state.page === 1 ? "disabled" : "");
+      if (state.page === 1) {
+        pr.disabled = true;
       } else {
-        pr.disabled = false
+        pr.disabled = false;
       }
-      pl.setAttribute('data-state', state.page===state.confessionLastPageNum ? 'disabled' : '')
+      pl.setAttribute(
+        "data-state",
+        state.page === state.confessionLastPageNum ? "disabled" : ""
+      );
       if (state.page === state.confessionLastPageNum) {
-        pl.disabled = true
+        pl.disabled = true;
       } else {
-        pl.disabled = false
+        pl.disabled = false;
       }
-    })
+    });
 
     // 개설된 모든 방의 정보를 보여준다.
-    const getConfessionView = async function() {
-      state.pageSearchTopic = 'main'
-      state.page = 1
-      await store.dispatch('root/confessionGetMeetingList')
+    const getConfessionView = async function () {
+      state.pageSearchTopic = "main";
+      state.page = 1;
+      await store.dispatch("root/confessionGetMeetingList");
 
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
+      const pr = document.querySelector(".paginate.left");
+      const pl = document.querySelector(".paginate.right");
 
-      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
-      if (state.page===1) {
-        pr.disabled = true
+      pr.setAttribute("data-state", state.page === 1 ? "disabled" : "");
+      if (state.page === 1) {
+        pr.disabled = true;
       } else {
-        pr.disabled = false
+        pr.disabled = false;
       }
-      pl.setAttribute('data-state', state.page===state.confessionLastPageNum ? 'disabled' : '')
+      pl.setAttribute(
+        "data-state",
+        state.page === state.confessionLastPageNum ? "disabled" : ""
+      );
       if (state.page === state.confessionLastPageNum) {
-        pl.disabled = true
+        pl.disabled = true;
       } else {
-        pl.disabled = false
+        pl.disabled = false;
       }
-    }
+    };
 
     const clickConfessionCategory = async function (topic) {
-      state.pageSearchTopic = 'topic'
-      state.page = 1
-      state.topic = topic
-      await store.dispatch("root/confessionGetCategoryList", topic)
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
+      state.pageSearchTopic = "topic";
+      state.page = 1;
+      state.topic = topic;
+      await store.dispatch("root/confessionGetCategoryList", topic);
+      const pr = document.querySelector(".paginate.left");
+      const pl = document.querySelector(".paginate.right");
 
-      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
-      if (state.page===1) {
-        pr.disabled = true
+      pr.setAttribute("data-state", state.page === 1 ? "disabled" : "");
+      if (state.page === 1) {
+        pr.disabled = true;
       } else {
-        pr.disabled = false
+        pr.disabled = false;
       }
-      pl.setAttribute('data-state', state.page===state.confessionLastPageNum ? 'disabled' : '')
+      pl.setAttribute(
+        "data-state",
+        state.page === state.confessionLastPageNum ? "disabled" : ""
+      );
       if (state.page === state.confessionLastPageNum) {
-        pl.disabled = true
+        pl.disabled = true;
       } else {
-        pl.disabled = false
+        pl.disabled = false;
       }
-    }
+    };
 
     // 검색 시, 주제, 키워드, 현재 페이지를 넘겨준다.
-    const clickConfessionSearch = async function() {
-      state.pageSearchTopic = 'search'
-      state.page = 1
+    const clickConfessionSearch = async function () {
+      state.pageSearchTopic = "search";
+      state.page = 1;
       await store.dispatch("root/confessionGetSearchList", {
         key: state.key,
         value: state.word,
-      })
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
+      });
+      const pr = document.querySelector(".paginate.left");
+      const pl = document.querySelector(".paginate.right");
 
-      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
-      if (state.page===1) {
-        pr.disabled = true
+      pr.setAttribute("data-state", state.page === 1 ? "disabled" : "");
+      if (state.page === 1) {
+        pr.disabled = true;
       } else {
-        pr.disabled = false
+        pr.disabled = false;
       }
-      pl.setAttribute('data-state', state.page===state.confessionLastPageNum ? 'disabled' : '')
+      pl.setAttribute(
+        "data-state",
+        state.page === state.confessionLastPageNum ? "disabled" : ""
+      );
       if (state.page === state.confessionLastPageNum) {
-        pl.disabled = true
+        pl.disabled = true;
       } else {
-        pl.disabled = false
+        pl.disabled = false;
       }
-    }
-    
+    };
+
     // 내가 넘겨줄 것 : 보여줄 page size
-    // 데이터들, 전체 page 수, 전체 게시글 갯수,   
-    // 페이지 
-    const checkPage = async function(event) {
+    // 데이터들, 전체 page 수, 전체 게시글 갯수,
+    // 페이지
+    const checkPage = async function (event) {
       let targetId = event.currentTarget.id;
-      if(targetId == "prev") {
-          state.page -= 1;
-      }
-      else if(targetId == "next") {
-          state.page += 1;   
+      if (targetId == "prev") {
+        state.page -= 1;
+      } else if (targetId == "next") {
+        state.page += 1;
       }
 
-      const pr = document.querySelector('.paginate.left')
-      const pl = document.querySelector('.paginate.right')
+      const pr = document.querySelector(".paginate.left");
+      const pl = document.querySelector(".paginate.right");
 
-      pr.setAttribute('data-state', state.page===1 ? 'disabled' : '')
-      if (state.page===1) {
-        pr.disabled = true
+      pr.setAttribute("data-state", state.page === 1 ? "disabled" : "");
+      if (state.page === 1) {
+        pr.disabled = true;
       } else {
-        pr.disabled = false
+        pr.disabled = false;
       }
-      pl.setAttribute('data-state', state.page===state.confessionLastPageNum ? 'disabled' : '')
+      pl.setAttribute(
+        "data-state",
+        state.page === state.confessionLastPageNum ? "disabled" : ""
+      );
       if (state.page === state.confessionLastPageNum) {
-        pl.disabled = true
+        pl.disabled = true;
       } else {
-        pl.disabled = false
+        pl.disabled = false;
       }
 
-      if(state.pageSearchTopic === 'main') {
-        await store.dispatch("root/confessionPageSearch",{
+      if (state.pageSearchTopic === "main") {
+        await store.dispatch("root/confessionPageSearch", {
           size: 6,
           page: state.page,
-        })
-      } else if (state.pageSearchTopic === 'topic') {
-        await store.dispatch("root/confessionTopicPageSearch",{
+        });
+      } else if (state.pageSearchTopic === "topic") {
+        await store.dispatch("root/confessionTopicPageSearch", {
           topicCategoryId: state.topic,
           size: 6,
           page: state.page,
-        })
-      } else if (state.pageSearchTopic === 'search') {
-        await store.dispatch("root/confessionSearchPageSearch",{
+        });
+      } else if (state.pageSearchTopic === "search") {
+        await store.dispatch("root/confessionSearchPageSearch", {
           key: state.key,
           value: state.word,
           size: 6,
           page: state.page,
-        })
+        });
       }
-    }
+    };
 
     const clickEnterMeeting = async function (meetingId) {
-      await store.dispatch('root/confessionEnterMeeting', meetingId)
+      await store.dispatch("root/confessionEnterMeeting", meetingId);
       await router.push({
-        name: 'MeetingConfession',
+        name: "MeetingConfession",
         params: {
-          meeting_id: meetingId
-        }
-      })
-    }
+          meeting_id: meetingId,
+        },
+      });
+    };
 
-    const clickConfessionList = function(num) {
-      state.key = state.searchCategories[num-1].backValue
-      state.showKey = state.searchCategories[num-1].value
-      console.log(state.key, state.showKey)
-    }
+    const clickConfessionList = function (num) {
+      state.key = state.searchCategories[num - 1].backValue;
+      state.showKey = state.searchCategories[num - 1].value;
+      console.log(state.key, state.showKey);
+    };
 
-    return {state, onMounted, getConfessionView, clickConfessionSearch, checkPage, clickConfessionCategory, clickEnterMeeting, clickConfessionList }
-  }
-}
+    return {
+      state,
+      onMounted,
+      getConfessionView,
+      clickConfessionSearch,
+      checkPage,
+      clickConfessionCategory,
+      clickEnterMeeting,
+      clickConfessionList,
+    };
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -318,34 +415,29 @@ export default {
 
 // 고해성사 글자
 .container {
-	position: relative;
+  position: relative;
   margin-left: 0pt;
   margin-right: 0pt;
-	width: auto;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 // End Codepen spesific styling
 
-
 h1 {
-	color: #c2d6f8;
-	font-size: 30pt ;  
-	font-weight: 900;
-  text-shadow: -0.0075em 0.0075em 0 #f8fafe,
-    0.005em 0.005em 0 #ceddf8,
-    0.01em 0.01em 0 #d1dff8,
-    0.015em 0.015em #d3e1f9,
-    0.02em 0.02em 0 #d6e2f9, 
-    0.025em 0.025em 0 #d8e4f9, 
-    0.03em 0.03em 0 #dae6fa, 
+  color: #c2d6f8;
+  font-size: 30pt;
+  font-weight: 900;
+  text-shadow: -0.0075em 0.0075em 0 #f8fafe, 0.005em 0.005em 0 #ceddf8,
+    0.01em 0.01em 0 #d1dff8, 0.015em 0.015em #d3e1f9, 0.02em 0.02em 0 #d6e2f9,
+    0.025em 0.025em 0 #d8e4f9, 0.03em 0.03em 0 #dae6fa,
     0.035em 0.035em 0 #dde7fa;
 }
 
 body {
-  font-family: 'Noto Sans JP', sans-serif;
-/*   background-color: #fef8f8; */
+  font-family: "Noto Sans JP", sans-serif;
+  /*   background-color: #fef8f8; */
 }
 
 input {
@@ -361,12 +453,12 @@ input {
   overflow: visible;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-tap-highlight-color: transparent;
-    --size: 80px;
+  --size: 80px;
   --frames: 62;
 }
 
 .hearth {
-  background-image: url('https://assets.codepen.io/23500/Hashflag-AppleEvent.svg');
+  background-image: url("https://assets.codepen.io/23500/Hashflag-AppleEvent.svg");
   background-size: calc(var(--size) * var(--frames)) var(--size);
   background-repeat: no-repeat;
   background-position-x: calc(var(--size) * (var(--frames) * -1 + 2));
@@ -378,7 +470,7 @@ input {
 }
 
 input:checked + .hearth {
-  animation: like 1s steps(calc(var(--frames) - 3));  
+  animation: like 1s steps(calc(var(--frames) - 3));
   animation-fill-mode: forwards;
 }
 
@@ -393,7 +485,7 @@ input:checked + .hearth {
 
 @media (hover: hover) {
   .like:hover {
-    background-color: #E1255E15;
+    background-color: #e1255e15;
     .hearth {
       background-position-x: calc(var(--size) * (var(--frames) * -1 + 1));
     }
@@ -404,11 +496,11 @@ a {
   text-decoration: none;
   color: inherit;
 }
-.cta { 
+.cta {
   position: relative;
   margin: auto;
   padding: 19px 22px;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   &:before {
     content: "";
     position: absolute;
@@ -416,17 +508,17 @@ a {
     left: 0;
     display: block;
     border-radius: 28px;
-    background: rgba(#bbd2f9,.5);
+    background: rgba(#bbd2f9, 0.5);
     width: 56px;
     height: 56px;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
   }
   span {
     position: relative;
     font-size: 16px;
     line-height: 18px;
     font-weight: 900;
-    letter-spacing: .25em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     vertical-align: middle;
   }
@@ -440,18 +532,18 @@ a {
     stroke: #111;
     stroke-width: 2;
     transform: translateX(-5px);
-    transition: all .3s ease;
+    transition: all 0.3s ease;
   }
   &:hover {
     &:before {
       width: 100%;
-      background: rgba(#bbd2f9,1);
+      background: rgba(#bbd2f9, 1);
     }
     svg {
       transform: translateX(0);
     }
     &:active {
-      transform: scale(.96);
+      transform: scale(0.96);
     }
   }
 }
@@ -469,7 +561,7 @@ a {
   position: relative;
   display: flex;
   width: 100%;
-  height: 40vh;  
+  height: 40vh;
   border-radius: calc(var(--curve) * 1px);
   overflow: hidden;
   text-decoration: none;
@@ -479,7 +571,7 @@ a {
     0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
-.card__image {      
+.card__image {
   width: 100%;
   height: auto;
 }
@@ -489,11 +581,11 @@ a {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1;      
-  border-radius: calc(var(--curve) * 1px);    
-  background-color: var(--surface-color);      
+  z-index: 1;
+  border-radius: calc(var(--curve) * 1px);
+  background-color: var(--surface-color);
   transform: translateY(100%);
-  transition: .2s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
 .card:hover .card__overlay {
@@ -506,10 +598,10 @@ a {
   align-items: center;
   gap: 2em;
   padding: 1em;
-  border-radius: calc(var(--curve) * 1px) 0 0 0;    
+  border-radius: calc(var(--curve) * 1px) 0 0 0;
   background-color: var(--surface-color);
   transform: translateY(-100%);
-  transition: .2s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
 .card__arc {
@@ -517,14 +609,14 @@ a {
   height: 80px;
   position: absolute;
   bottom: 100%;
-  right: 0;      
+  right: 0;
   z-index: 1;
 }
 
 .card__arc path {
   fill: var(--surface-color);
   d: path("M 40 80 c 22 0 40 -22 40 -40 v 40 Z");
-}       
+}
 
 .card:hover .card__header {
   transform: translateY(0);
@@ -533,34 +625,34 @@ a {
 .card__thumb {
   flex-shrink: 0;
   width: 50px;
-  height: 50px;      
-  border-radius: 50%;      
+  height: 50px;
+  border-radius: 50%;
 }
 
 .card__title {
   font-size: 1em;
-  margin: 0 0 .3em;
-  color: #6A515E;
+  margin: 0 0 0.3em;
+  color: #6a515e;
 }
 
 .card__tagline {
   display: block;
   margin: 1em 0;
-  font-family: "MockFlowFont";  
-  font-size: .8em; 
-  color: #D7BDCA;  
+  font-family: "MockFlowFont";
+  font-size: 0.8em;
+  color: #d7bdca;
 }
 
 .card__status {
-  font-size: .8em;
-  color: #D7BDCA;
+  font-size: 0.8em;
+  color: #d7bdca;
 }
 
 .card__description {
   padding: 0 2em 2em;
   margin: 0;
-  color: #D7BDCA;
-  font-family: "MockFlowFont";   
+  color: #d7bdca;
+  font-family: "MockFlowFont";
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
@@ -575,7 +667,7 @@ a {
 
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .4px;
+    letter-spacing: 0.4px;
 
     border: 2px solid #bbd2f9;
     padding: 8px 15px;
@@ -639,16 +731,16 @@ button {
 .paginate.left:active i:last-child {
   transform: translate(1px, 1px) rotate(-25deg);
 }
-.paginate.left[data-state=disabled] i:first-child {
+.paginate.left[data-state="disabled"] i:first-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginate.left[data-state=disabled] i:last-child {
+.paginate.left[data-state="disabled"] i:last-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginate.left[data-state=disabled]:hover i:first-child {
+.paginate.left[data-state="disabled"]:hover i:first-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
-.paginate.left[data-state=disabled]:hover i:last-child {
+.paginate.left[data-state="disabled"]:hover i:last-child {
   transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
@@ -675,19 +767,19 @@ button {
 .paginate.right:active i:last-child {
   transform: translate(1px, -1px) rotate(-25deg);
 }
-.paginate.right[data-state=disabled] i:first-child {
+.paginate.right[data-state="disabled"] i:first-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginate.right[data-state=disabled] i:last-child {
+.paginate.right[data-state="disabled"] i:last-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginate.right[data-state=disabled]:hover i:first-child {
+.paginate.right[data-state="disabled"]:hover i:first-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginate.right[data-state=disabled]:hover i:last-child {
+.paginate.right[data-state="disabled"]:hover i:last-child {
   transform: translate(5px, 0) rotate(0deg);
 }
-.paginate[data-state=disabled] {
+.paginate[data-state="disabled"] {
   opacity: 0.3;
   cursor: default;
 }
@@ -718,10 +810,10 @@ button {
 
 .searchInput {
   display: block;
-  border:none;
+  border: none;
   background: none;
-  outline:none;
-  float:left;
+  outline: none;
+  float: left;
   padding: 0;
   color: black;
   font-size: 16px;
@@ -732,7 +824,7 @@ button {
 }
 
 @media screen and (max-width: 620px) {
-.searchBox:hover > .searchInput {
+  .searchBox:hover > .searchInput {
     width: 150px;
     padding: 0 6px;
   }
@@ -746,7 +838,7 @@ button {
   width: 20%;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .4px;
+  letter-spacing: 0.4px;
   height: 80%;
 
   border: 2px solid #bbd2f9;
@@ -766,7 +858,7 @@ button {
   height: 80%;
   font-weight: 700;
   // text-transform: uppercase;
-  letter-spacing: .4px;
+  letter-spacing: 0.4px;
 
   border: 2px solid #bbd2f9;
   // padding: 8px 15px;
@@ -775,8 +867,6 @@ button {
   background: #bbd2f9;
   color: black !important;
 }
-
-
 
 // dropdown
 .dropdown {
@@ -813,7 +903,7 @@ button {
   list-style: none;
   list-style-type: none;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   visibility: hidden;
   z-index: -1;
   opacity: 1;
@@ -835,10 +925,8 @@ button {
   display: none;
 }
 .dropdown input:checked ~ .dropdown__items {
-  top: calc(100% + 25px);
+  top: calc(100% + 35px);
   visibility: visible;
   opacity: 1;
 }
-
-
 </style>

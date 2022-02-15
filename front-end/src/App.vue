@@ -11,8 +11,7 @@
 export default {
   name: "App",
   // components: { MainHeader },
-  setup() {
-  },
+  setup() {},
 };
 </script>
 
@@ -25,13 +24,13 @@ export default {
   color: #2c3e50;
   height: auto;
   width: 100%;
-  padding-left: 10px;
-  margin-right: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 body {
   height: 100vh;
-  margin-top: 0px!important;
+  margin-top: 0px !important;
   justify-content: center;
 }
 </style>
