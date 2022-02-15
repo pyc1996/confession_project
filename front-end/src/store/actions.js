@@ -2,10 +2,16 @@ import $axios from "axios";
 // import { useRouter } from 'vue-router'
 // import jwt_decode from "jwt-decode"
 
-export function mainSingUp({ state }, payload) {
+export async function mainSingUp({ state }, payload) {
   const url = "/user/signup";
   let body = payload;
-  $axios.post(url, body);
+  await $axios.post(url, body)
+    .then((res) => {
+      alert('회원가입에 성공했습니다.')
+    })
+    .catch((err) => {
+      console.log(err, '회원가입')
+    })
 }
 
 export async function mainUserInfoCheck({ commit }, payload) {
@@ -216,6 +222,22 @@ export async function profileGetConsultantProfile({ state, commit }, payload) {
 export async function profileGetConsultantLike({ state, commit }, payload) {
   const user_id = payload;
   const url = `profile/${user_id}/myConsultant`;
+  await $axios
+    .get(url)
+    .then((res) => {
+      console.log(res)
+      commit("PROFILE_CONSULTANT_LIKE", res.data);
+    })
+    .catch((err) => {
+      console.log(err, "프로필 내가 찜한 상담가");
+    });
+}
+
+export async function profileGetConsultantLikePageSearch({ state, commit }, payload) {
+  const page = payload.page
+  const size = payload.size
+  const user_id = payload.user_id;
+  const url = `profile/${user_id}/myConsultant?page=${page}&size=${size}`;
   await $axios
     .get(url)
     .then((res) => {
@@ -987,6 +1009,7 @@ export async function chatRoomGetList({ state, commit, dispatch }, payload) {
   await $axios
     .get(url)
     .then((res) => {
+      console.log(res.data)
       commit("CHATROOM_GET_LIST", res.data);
       commit("CHATROOM_GET_DETAIL_ID", res.data[0].consultantNickName);
       dispatch("chatRoomGetDetail", {

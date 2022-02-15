@@ -54,6 +54,10 @@ public class ProfileController {
     @Autowired
     MeetingHistoryService meetingHistoryService;
 
+    @Autowired
+    S3FileUploadService s3FileUploadService;
+
+
 
     @PostMapping("/check/nickname")
     @ApiOperation(value = "닉네임 중복 확인", notes = "<strong>닉네임</strong>이 이미 존재하는지 확인한다.")
@@ -169,11 +173,11 @@ public class ProfileController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<ConsultantListRes>> getMyConsultantList(@PathVariable("user_id") Long userId) {
+    public ResponseEntity<Page<ConsultantListRes>> getMyConsultantList(@PathVariable("user_id") Long userId,  @PageableDefault(page = 0, size = 4) Pageable pageable) {
 
         System.out.println(userId);
         // 유저 아이디를 입력해서 해당하는 상담가 정보들을 받아온다.
-        List<ConsultantProfile> consultantProfileList = profileService.getMyConsultantList(userId);
+        Page<ConsultantProfile> consultantProfileList = profileService.getMyConsultantList(userId, pageable);
 
         return ResponseEntity.status(200).body(ConsultantListRes.of(consultantProfileList));
     }
@@ -251,9 +255,9 @@ public class ProfileController {
         if(user == null) return null;
         // 기본 이미지 내려줄 것
         if(user.getProfileImg() == null || user.getProfileImg().equals(""))
-            ProjectDirectoryPathUtil.getProfileImagePath("default_profile_image.jpg");
+            s3FileUploadService.findImg("default_profile_image.jpg");
 
-        return new UrlResource("file:" + ProjectDirectoryPathUtil.getProfileImagePath(user.getProfileImg()));
+        return new UrlResource("file:" + s3FileUploadService.findImg(user.getProfileImg()));
     }
 
     @PostMapping("/image/{user_id}")

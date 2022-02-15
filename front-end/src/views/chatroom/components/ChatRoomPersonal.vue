@@ -78,10 +78,10 @@ export default {
       message: "",
     })
     
-    const connect = function () {
+    const connect = async function () {
       let socket = new SockJS("http://localhost:8080/chat");
       state.stompClient = Stomp.over(socket);
-      state.stompClient.connect({},
+      await state.stompClient.connect({},
         frame => {
           state.socketConnected = TextTrackCue
           state.stompClient.subscribe("/send", res => {
@@ -115,7 +115,6 @@ export default {
         };
         await state.stompClient.send("/receive", JSON.stringify(body), {});
         await store.dispatch('root/chatRoomGetDetail', { user_id: body.userId, chatRoom_id: body.chatRoomId })
-
       }
     }
 
@@ -272,6 +271,10 @@ export default {
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 400;
   animation: blink-effect 1s step-end infinite;
+
+  &:focus {
+    animation: none;
+  }
 }
 
 .container .right .write button {
