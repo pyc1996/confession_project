@@ -8,6 +8,7 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,9 +30,7 @@ public class S3FileUploadService {
     @Value("${cloud.aws.s3.bucket.url}")
     private String defaultUrl;
 
-
     private final AmazonS3Client amazonS3Client;
-
 
     public String upload(MultipartFile uploadFile) throws IOException {
         String origName = uploadFile.getOriginalFilename();
@@ -61,7 +60,6 @@ public class S3FileUploadService {
     public void deleteFile(String fileName) {
         amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
     }
-
 
     private static String getUuid() {
         return UUID.randomUUID().toString().replaceAll("-", "");
