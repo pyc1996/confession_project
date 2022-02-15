@@ -85,8 +85,10 @@ export default {
         frame => {
           state.socketConnected = TextTrackCue
           state.stompClient.subscribe("/send", res => {
-            store.dispatch('root/chatRoomGetDetail', { user_id: data.userId, chatRoom_id: chatRoom.chatRoomId })
+            console.log(res);
+            // store.dispatch('root/chatRoomGetDetail', { user_id: data.userId, chatRoom_id: chatRoom.chatRoomId })
             state.recvList.push(JSON.parse(res.body))
+            console.log(res);
           })
         },
         error => {
