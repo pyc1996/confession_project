@@ -79,7 +79,7 @@ export default {
     })
     
     const connect = async function () {
-      let socket = new SockJS("http://i6e202.p.ssafy.io:8443/chat");
+      let socket = new SockJS("/chat");
       state.stompClient = Stomp.over(socket);
       await state.stompClient.connect({},
         frame => {
