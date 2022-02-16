@@ -112,59 +112,32 @@
           <div
             v-for="(confessionMeeting, index) in state.confessionMeetingList"
             :key="index"
-            class="col-3 mx-5 mt-5"
-            style="margin-bottom: 10%"
+            class="col-3 px-5"
+            style="margin-bottom: 3%"
           >
-            =======
-            <div
-              v-for="(confessionMeeting, index) in state.confessionMeetingList"
-              :key="index"
-              class="col-3 px-5"
-              style="margin-bottom: 3%"
-            >
-              >>>>>>> master
-              <div class="card">
-                <img
-                  :src="
-                    'https://e202.s3.ap-northeast-2.amazonaws.com/' +
-                    confessionMeeting.profileImg
-                  "
-                  class="card__image"
-                />
-                <div class="card__overlay">
-                  <div class="card__header">
-                    <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
-                      <path />
-                    </svg>
-                    <img
-                      class="card__thumb"
-                      :src="
-                        require('@/assets/mask/mask' +
-                          confessionMeeting.maskId +
-                          '.png')
-                      "
-                      alt=""
-                    />
-                    <div class="card__header-text">
-                      <h3 class="card__title">
-                        {{ confessionMeeting.ownerNickname }}
-                      </h3>
-                      <span class="card__status"
-                        >주제: {{ confessionMeeting.topicCategoryName }}</span
-                      >
-                    </div>
-                  </div>
-                  <div class="card__description" style="text-align: center">
-                    <span style="font-weight: bold">{{
-                      confessionMeeting.description
-                    }}</span
-                    ><br />
-                    <hr />
-                    <span
-                      >{{ confessionMeeting.currJoinParticipants + 1 }} /
-                      {{ confessionMeeting.participants }}</span
-                    ><br /><br />
-                    =======
+            <div class="card">
+              <img
+                :src="
+                  'https://e202.s3.ap-northeast-2.amazonaws.com/' +
+                  confessionMeeting.profileImg
+                "
+                class="card__image"
+              />
+              <div class="card__overlay">
+                <div class="card__header">
+                  <svg class="card__arc" xmlns="http://www.w3.org/2000/svg">
+                    <path />
+                  </svg>
+                  <img
+                    class="card__thumb"
+                    :src="
+                      require('@/assets/mask/mask' +
+                        confessionMeeting.maskId +
+                        '.png')
+                    "
+                    alt=""
+                  />
+                  <div class="card__header-text">
                     <h3 class="card__title">{{ confessionMeeting.title }}</h3>
                     <span class="card__status">{{
                       confessionMeeting.topicCategoryName
@@ -182,7 +155,6 @@
                     >{{ confessionMeeting.currJoinParticipants + 1 }} /
                     {{ confessionMeeting.participants }}</span
                   ><br /><br />
-                  >>>>>>> master
                   <button
                     type="button"
                     class="front__text-hover"
