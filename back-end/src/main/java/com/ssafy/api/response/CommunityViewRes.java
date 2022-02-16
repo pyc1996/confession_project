@@ -27,6 +27,10 @@ public class CommunityViewRes {
     Long userId;
     @ApiModelProperty(name = "User nickname")
     String userNickname;
+    @ApiModelProperty(name = "User mask_id")
+    int maskId;
+    @ApiModelProperty(name = "User profile_img")
+    String profileImg;
     @ApiModelProperty(name = "Community title")
     String title;
     @ApiModelProperty(name = "Community description")
@@ -49,7 +53,8 @@ public class CommunityViewRes {
         List<CommentListRes> commentListRes = CommentListRes.of(c.getCommentList());
 
         clr.setCommentListRes(commentListRes);
-
+        clr.setProfileImg(user.getProfileImg());
+        clr.setMaskId(user.getMaskId());
         clr.setUserId(user.getId());
         clr.setUserNickname(user.getNickname());
         clr.setId(c.getId());
