@@ -17,7 +17,7 @@
             width: 4%;
             margin-left: 2%;
             margin-bottom: 1%;
-            pointer: cursor;
+            cursor: pointer;
           "
           @click="goToHome"
         />
@@ -127,6 +127,7 @@ export default {
 #nav {
   position: fixed-top;
   background-color: #c2d6f8;
+  width: 101%;
 }
 
 a,

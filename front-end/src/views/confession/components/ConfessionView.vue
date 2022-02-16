@@ -53,7 +53,7 @@
             class="dropdown-menu"
             aria-labelledby="dropdownMenuButton1"
             style="
-              min-width: 12rem;
+              min-width: 5rem;
               border: 2px solid #bbd2f9;
               border-radius: 30px;
               padding: 0px;
@@ -90,7 +90,7 @@
           <input
             class="searchInput"
             type="text"
-            placeholder="Search"
+            placeholder="검색할 내용을 적어주세요"
             v-model="state.word"
           />
         </div>
@@ -236,7 +236,7 @@ export default {
         { value: "방 제목", backValue: "title" },
         { value: "방 설명", backValue: "description" },
       ],
-      showKey: "Select",
+      showKey: "선택",
       key: "Select",
       word: null,
       page: 1,
@@ -728,7 +728,7 @@ button {
   transition: all 0.15s ease;
 }
 .paginate.left {
-  right: 67%;
+  right: 68%;
 }
 .paginate.left i {
   transform-origin: 0% 50%;
