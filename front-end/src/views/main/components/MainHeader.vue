@@ -32,9 +32,10 @@
         <router-link
           :to="{ name: 'History', params: { user_id: state.userInfo.id } }"
           style="font-size: 30px"
-          >과거이력</router-link
+          >발자취</router-link
         >
       </span>
+      <span class="col-3"> </span>
       <span class="col-3"> </span>
       <span class="col-2 d-flex justify-content-evenly ms-5">
         <router-link :to="{ name: 'Community' }" style="font-size: 30px"
@@ -87,6 +88,8 @@ export default {
       store.commit("root/GET_USER_INFO", null);
       store.commit("root/MAIN_EMAIL_BOOL", false);
       store.commit("root/MAIN_NICKNAME_BOOL", false);
+      store.commit("root/PROFILE_GET_NICKNAME", false);
+      store.commit("root/PROFILE_GET_CONSULTANT_PROFILE", null);
       localStorage.removeItem("jwt");
       router.push({ name: "Home" });
     };
