@@ -11,7 +11,8 @@
 export default {
   name: "App",
   // components: { MainHeader },
-  setup() {},
+  setup() {
+  },
 };
 </script>
 
@@ -28,7 +29,7 @@ export default {
 
 body {
   height: 100vh;
-  margin-top: 0px !important;
+  margin-top: 0px!important;
   justify-content: center;
   font-family: "Binggrae";
 }
