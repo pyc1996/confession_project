@@ -124,8 +124,7 @@ export default {
           userId: data.userId,
           message: data.message,
         };
-        console.log(chatRoom.chatRoomId);
-        if (typeof chatRoom.chatRoomId == Number) {
+        if (typeof chatRoom.chatRoomId == "number") {
           await state.stompClient.send("/receive", JSON.stringify(body), {});
           await store.dispatch("root/chatRoomGetDetail", {
             user_id: body.userId,
@@ -460,6 +459,7 @@ export default {
   height: 100%;
   box-sizing: border-box;
   border-radius: 30px;
+  background: #fff;
   width: 95%;
   padding-left: 5%;
   float: left;
