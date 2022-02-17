@@ -1,7 +1,9 @@
 <template>
   <div class="top">
     <span>
-      <span class="name">{{ state.chatRoomNickname }}과의 대화</span></span
+      <span class="name" v-if="state.chatRoomNickname != ''"
+        >{{ state.chatRoomNickname }}과의 대화</span
+      ></span
     >
   </div>
   <div class="chat" data-chat="person1">
@@ -95,10 +97,10 @@ export default {
         (frame) => {
           state.socketConnected = TextTrackCue;
           state.stompClient.subscribe("/send", (res) => {
-            store.dispatch("root/chatRoomGetDetail", {
-              user_id: data.userId,
-              chatRoom_id: chatRoom.chatRoomId,
+            store.dispatch("root/chatRoomGetList", {
+              userId: state.userInfo.id,
             });
+            // store.dispatch('root/chatRoomGetDetail', { user_id: data.userId, chatRoom_id: chatRoom.chatRoomId })
             state.recvList.push(JSON.parse(res.body));
           });
         },
@@ -127,10 +129,10 @@ export default {
           message: data.message,
         };
         await state.stompClient.send("/receive", JSON.stringify(body), {});
-        await store.dispatch("root/chatRoomGetDetail", {
-          user_id: body.userId,
-          chatRoom_id: body.chatRoomId,
+        await store.dispatch("root/chatRoomGetList", {
+          userId: state.userInfo.id,
         });
+        // await store.dispatch('root/chatRoomGetDetail', { user_id: body.userId, chatRoom_id: body.chatRoomId })
       }
     };
 
