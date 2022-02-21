@@ -46,7 +46,7 @@ repositories {
     maven { url "https://build.shibboleth.net/nexus/content/repositories/releases" }
 }
 
-group 'com.ssafy'
+group 'com.project'
 version '1.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -188,7 +188,7 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.20")
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 
-//  aws
+//  aws s3
     implementation("io.awspring.cloud:spring-cloud-aws-context:2.3.3")
     implementation("org.springframework.cloud:spring-cloud-aws-autoconfigure:2.2.6.RELEASE")
 
