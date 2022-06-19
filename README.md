@@ -70,21 +70,6 @@
 
 <br/><br/><br/>
 
-# 팀 구성
-![팀원소개](./screenshot/팀원소개.PNG)
-## Front-End
-- 정재호 : 총괄 팀장(프론트) + WebSocket(SockJS + STOMP) + 디자인 + 발표
-- 김동현 : 프론트 + OpenVidu + 디자인
-- 최영진 : 프론트 + OpenVidu + 디자인
-
-<br>  
-
-## Back-End
-- 김현민 : 백엔드 팀장 + 소셜 로그인(OAuth2.0) + PPT
-- 박영찬 : 백엔드 + 인프라 + AWS S3
-- 어서빈 : 백엔드 + WebSocket(SockJS + STOMP) + UCC
-
-<br>
 
 ## 주요 협업 툴
 - Jira
